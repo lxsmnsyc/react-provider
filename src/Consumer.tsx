@@ -34,7 +34,7 @@ interface ConsumerProps<T> {
     of: ProviderFilter<T>,
     builder: ConsumerBuilder<T>,
     defaultValue: T,
-    children: React.ReactNode,
+    children?: React.ReactNode,
 }
 
 export default function Consumer<T>({ of, builder, defaultValue, children }: ConsumerProps<T>) {
