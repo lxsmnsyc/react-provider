@@ -34,7 +34,7 @@ interface SelectorProps<T, R> {
     of: ProviderFilter<T>,
     selector: (value: T) => R,
     builder: SelectorBuilder<R>,
-    children: React.ReactNode,
+    children?: React.ReactNode,
     defaultValue: T,
 }
 
