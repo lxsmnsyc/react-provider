@@ -26,8 +26,9 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import Provider from '../Provider';
+import Provider, { ProviderKey } from '../Provider';
 interface PromiseProviderProps<T> {
+    of?: ProviderKey,
     value: Promise<T>,
     children: React.ReactNode,
 };
@@ -81,18 +82,28 @@ function usePromise<T>(promise: Promise<T>) {
         setState({ state: 'loading' });
 
         promise.then(
-            value => mounted.current && setState({ state: 'success', value }),
-            error => mounted.current && setState({ state: 'failure', error }),
+            (value) => {
+                if (mounted.current) {
+                    setState({ state: 'success', value });
+                }
+                return value;
+            },
+            (error) => {
+                if (mounted.current) {
+                    setState({ state: 'failure', error });
+                }
+                return error;
+            }
         );
     }, [ promise ]);
 
     return state;
 }
 
-export default function PromiseProvider<T>({ value, children }: PromiseProviderProps<T>) {
+export default function PromiseProvider<T>({ of, value, children }: PromiseProviderProps<T>) {
     const state = usePromise(value);
     return (
-        <Provider value={state}>
+        <Provider of={of} value={state}>
             { children }
         </Provider>
     );
