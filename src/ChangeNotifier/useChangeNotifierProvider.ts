@@ -27,12 +27,12 @@
  */
 import * as React from 'react';
 import ChangeNotifier, { ChangeNotifierListener } from "./ChangeNotifier";
-import { useProvider } from "../useProvider";
+import { useProvider, ProviderFinder } from "../useProvider";
 
-export type ChangeNotifierFilter<T> = (x: any) => x is T;
+export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
 type OptionalChangeNotifier<T> = T | null;
 
-export default function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFilter<T>, listen: boolean = true) {
+export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true) {
     const value = useProvider<OptionalChangeNotifier<T>>(of, null);
     const [state, setState] = React.useState<boolean>(false);
 
