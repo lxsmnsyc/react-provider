@@ -29,7 +29,7 @@ import * as React from 'react';
 import { usePromiseProvider, PromiseProviderFinder } from "./usePromiseProvider";
 import { PromiseDefault, PromiseResult, PromiseLoading, PromiseSuccess, PromiseFailure } from "./PromiseProvider";
 
-interface PromiseConsumerProps<T> {
+export interface PromiseConsumerProps<T> {
     of: PromiseProviderFinder<T>,
     onDefault?: (children: React.ReactNode) => React.ReactElement,
     onLoading?: (children: React.ReactNode) => React.ReactElement,
@@ -51,7 +51,7 @@ function PromiseFailureFilter<T>(x: PromiseResult<T>): x is PromiseFailure {
     return (x as PromiseFailure).state === 'failure';
 }
 
-export default function PromiseConsumer<T>({ of, onDefault, onLoading, onSuccess, onFailure, children }: PromiseConsumerProps<T>) {
+export function PromiseConsumer<T>({ of, onDefault, onLoading, onSuccess, onFailure, children }: PromiseConsumerProps<T>) {
     const result = usePromiseProvider<T>(of);
 
     if (onLoading && PromiseLoadingFilter(result)) {
