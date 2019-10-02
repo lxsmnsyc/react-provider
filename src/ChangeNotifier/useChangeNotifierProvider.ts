@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import ChangeNotifier, { ChangeNotifierListener } from "./ChangeNotifier";
+import { ChangeNotifier, ChangeNotifierListener } from "./ChangeNotifier";
 import { useProvider, ProviderFinder } from "../useProvider";
 
 export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
