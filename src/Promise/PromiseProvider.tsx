@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import Provider, { ProviderKey } from '../Provider';
+import { Provider, ProviderKey } from '../Provider';
 interface PromiseProviderProps<T> {
     of?: ProviderKey,
     value: Promise<T>,
@@ -100,7 +100,7 @@ function usePromise<T>(promise: Promise<T>) {
     return state;
 }
 
-export default function PromiseProvider<T>({ of, value, children }: PromiseProviderProps<T>) {
+export function PromiseProvider<T>({ of, value, children }: PromiseProviderProps<T>) {
     const state = usePromise(value);
     return (
         <Provider of={of} value={state}>
