@@ -26,12 +26,12 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { useProvider, ProviderFilter } from './useProvider';
+import { useProvider, ProviderFinder } from './useProvider';
 
 type ConsumerBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
 
 interface ConsumerProps<T> {
-    of: ProviderFilter<T>,
+    of: ProviderFinder<T>,
     builder: ConsumerBuilder<T>,
     defaultValue: T,
     children?: React.ReactNode,
