@@ -26,16 +26,16 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import ChangeNotifier from "./ChangeNotifier";
-import Provider, { ProviderKey } from '../Provider';
+import { ChangeNotifier } from "./ChangeNotifier";
+import { Provider, ProviderKey } from '../Provider';
 
-interface ChangeNotifierProviderProps<T> {
+export interface ChangeNotifierProviderProps<T> {
     of?: ProviderKey,
     value: T,
     children: React.ReactNode,
 };
 
-export default function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: ChangeNotifierProviderProps<T>) {
+export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: ChangeNotifierProviderProps<T>) {
     return (
         <Provider of={of} value={value}>
             { children }
