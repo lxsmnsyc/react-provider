@@ -26,12 +26,12 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { useProvider, ProviderFilter } from './useProvider';
+import { useProvider, ProviderFinder } from './useProvider';
 
 type SelectorBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
 
 interface SelectorProps<T, R> {
-    of: ProviderFilter<T>,
+    of: ProviderFinder<T>,
     selector: (value: T) => R,
     builder: SelectorBuilder<R>,
     children?: React.ReactNode,
