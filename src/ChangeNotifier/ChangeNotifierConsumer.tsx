@@ -27,12 +27,12 @@
  */
 import * as React from 'react';
 import ChangeNotifier from "./ChangeNotifier";
-import useChangeNotifierProvider, { ChangeNotifierFilter } from "./useChangeNotifierProvider";
+import { useChangeNotifierProvider, ChangeNotifierFinder } from "./useChangeNotifierProvider";
 
 type ChangeNotifierBuilder<T> = (changeNotifier: T, children: React.ReactNode) => React.ReactElement;
 
-interface ChangeNotifierConsumerProps<T> {
-    of: ChangeNotifierFilter<T>,
+interface ChangeNotifierConsumerProps<T extends ChangeNotifier> {
+    of: ChangeNotifierFinder<T>,
     children: React.ReactNode,
     builder: ChangeNotifierBuilder<T>,
 }
