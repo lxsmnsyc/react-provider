@@ -28,9 +28,9 @@
 import * as React from 'react';
 import { useProvider, ProviderFinder } from './useProvider';
 
-type SelectorBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
+export type SelectorBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
 
-interface SelectorProps<T, R> {
+export interface SelectorProps<T, R> {
     of: ProviderFinder<T>,
     selector: (value: T) => R,
     builder: SelectorBuilder<R>,
@@ -38,7 +38,7 @@ interface SelectorProps<T, R> {
     defaultValue: T,
 }
 
-export default function Selector<T, R>({ of, selector, builder, defaultValue, children }: SelectorProps<T, R>) {
+export function Selector<T, R>({ of, selector, builder, defaultValue, children }: SelectorProps<T, R>) {
     const value = useProvider<T>(of, defaultValue);
 
     const selected = selector(value);
