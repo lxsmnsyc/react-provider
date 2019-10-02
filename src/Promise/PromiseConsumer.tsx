@@ -35,7 +35,7 @@ export interface PromiseConsumerProps<T> {
     onLoading?: (children: React.ReactNode) => React.ReactElement,
     onSuccess?: (value: T, children: React.ReactNode) => React.ReactElement,
     onFailure?: (error: Error, children: React.ReactNode) => React.ReactElement,
-    children: React.ReactNode,
+    children?: React.ReactNode,
 };
 
 function PromiseDefaultFilter<T>(x: PromiseResult<T>): x is PromiseDefault {
