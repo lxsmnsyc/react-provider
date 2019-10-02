@@ -25,11 +25,12 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import usePromiseProvider, { PromiseProviderFilter } from "./usePromiseProvider";
+import * as React from 'react';
+import { usePromiseProvider, PromiseProviderFinder } from "./usePromiseProvider";
 import { PromiseDefault, PromiseResult, PromiseLoading, PromiseSuccess, PromiseFailure } from "./PromiseProvider";
 
 interface PromiseConsumerProps<T> {
-    of: PromiseProviderFilter<T>,
+    of: PromiseProviderFinder<T>,
     onDefault?: (children: React.ReactNode) => React.ReactElement,
     onLoading?: (children: React.ReactNode) => React.ReactElement,
     onSuccess?: (value: T, children: React.ReactNode) => React.ReactElement,
