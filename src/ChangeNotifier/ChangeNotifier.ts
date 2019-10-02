@@ -30,6 +30,10 @@ export type ChangeNotifierListener = () => void;
 export default class ChangeNotifier {
     private listeners: Set<ChangeNotifierListener>;
 
+    constructor() {
+        this.listeners = new Set<ChangeNotifierListener>();
+    }
+
     public addListener(listener: ChangeNotifierListener) {
         this.listeners.add(listener);
     }
