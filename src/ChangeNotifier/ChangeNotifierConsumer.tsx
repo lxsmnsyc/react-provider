@@ -33,7 +33,7 @@ export type ChangeNotifierBuilder<T> = (changeNotifier: T, children: React.React
 
 export interface ChangeNotifierConsumerProps<T extends ChangeNotifier> {
     of: ChangeNotifierFinder<T>,
-    children: React.ReactNode,
+    children?: React.ReactNode,
     builder: ChangeNotifierBuilder<T>,
 }
 
