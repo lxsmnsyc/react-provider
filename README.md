@@ -13,17 +13,65 @@ npm install --save react-provider
 ## Examples
 
 ### Basic
+
 ```tsx
-import * as React from 'react'
+import React from 'react'
 
-import MyComponent from 'react-provider'
+import { Provider, Consumer } from 'react-provider'
 
-class Example extends React.Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
+export default function App() {
+  return (
+    <Provider of="A" value="Hello World">
+      <Consumer of="A" builder={x => <h1>{x}</h1>} />
+    </Provider>
+  )
+}
+```
+
+### Nested using filters
+
+```tsx
+import React from 'react'
+
+import { Provider, Consumer } from 'react-provider'
+
+export default function App() {
+  return (
+    <Provider value="Hello World">
+      <Provider value="Hello Alexis">
+        <Consumer
+          of={x => typeof x === 'string'}
+          builder={x => <h1>{x}</h1>}
+        />
+      </Provider>
+      <Consumer
+        of={x => typeof x === 'string'}
+        builder={x => <h1>{x}</h1>}
+      />
+    </Provider>
+  )
+}
+```
+
+### Promise
+
+```tsx
+import React from 'react'
+
+import { PromiseProvider, PromiseConsumer } from 'react-provider';
+
+export default function App() {
+  return (
+    <PromiseProvider of="Test" value={Promise.resolve('Hello World')}>
+      <PromiseConsumer
+        of="Test"
+        onDefault={() => <h1>Default</h1>}
+        onSuccess={x => <h1>{x}</h1>}
+        onFailure={x => <h1>{x.message}</h1>}
+        onLoading={() => <h1>Loading...</h1>}
+      />
+    </PromiseProvider>
+  )
 }
 ```
 
@@ -81,7 +129,7 @@ export default function App() {
 }
 ```
 
-### Composing
+### Composing multiple Providers
 
 ```tsx
 import React from 'react'
