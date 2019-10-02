@@ -26,18 +26,18 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import ChangeNotifier from "./ChangeNotifier";
+import { ChangeNotifier } from "./ChangeNotifier";
 import { useChangeNotifierProvider, ChangeNotifierFinder } from "./useChangeNotifierProvider";
 
-type ChangeNotifierBuilder<T> = (changeNotifier: T, children: React.ReactNode) => React.ReactElement;
+export type ChangeNotifierBuilder<T> = (changeNotifier: T, children: React.ReactNode) => React.ReactElement;
 
-interface ChangeNotifierConsumerProps<T extends ChangeNotifier> {
+export interface ChangeNotifierConsumerProps<T extends ChangeNotifier> {
     of: ChangeNotifierFinder<T>,
     children: React.ReactNode,
     builder: ChangeNotifierBuilder<T>,
 }
 
-export default function ChangeNotifierConsumer<T extends ChangeNotifier>({ of, builder, children }: ChangeNotifierConsumerProps<T>) {
+export function ChangeNotifierConsumer<T extends ChangeNotifier>({ of, builder, children }: ChangeNotifierConsumerProps<T>) {
     const value = useChangeNotifierProvider<T>(of, true);
 
     return value && builder(value, children); 
