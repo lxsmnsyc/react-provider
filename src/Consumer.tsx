@@ -30,13 +30,13 @@ import { useProvider, ProviderFinder } from './useProvider';
 
 type ConsumerBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
 
-interface ConsumerProps<T> {
+export interface ConsumerProps<T> {
     of: ProviderFinder<T>,
     builder: ConsumerBuilder<T>,
     defaultValue: T,
     children?: React.ReactNode,
 }
 
-export default function Consumer<T>({ of, builder, defaultValue, children }: ConsumerProps<T>) {
+export function Consumer<T>({ of, builder, defaultValue, children }: ConsumerProps<T>) {
     return builder(useProvider<T>(of, defaultValue), children);
 }
