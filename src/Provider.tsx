@@ -27,18 +27,17 @@
  */
 import * as React from 'react';
 import ProviderContext from './ProviderContext';
-
-const { useContext } = React;
-
 interface ProviderProps<T> {
     value: T,
     children: React.ReactNode,
 }
 
 export default function Provider<T>({ value, children }: ProviderProps<T>) {
-    const values = useContext(ProviderContext);
+    const values = React.useContext(ProviderContext);
+    const memo = [value, ...values];
+    const memoized = React.useMemo(() => memo, memo);
     return (
-        <ProviderContext.Provider value={[value, ...values]}>
+        <ProviderContext.Provider value={memoized}>
             { children }
         </ProviderContext.Provider>
     );
