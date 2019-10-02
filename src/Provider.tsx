@@ -27,17 +27,24 @@
  */
 import * as React from 'react';
 import ProviderContext from './ProviderContext';
+
+export type ProviderKey = string;
+
 interface ProviderProps<T> {
     value: T,
+    of?: ProviderKey,
     children: React.ReactNode,
 }
 
-export default function Provider<T>({ value, children }: ProviderProps<T>) {
+export default function Provider<T>({ value, of, children }: ProviderProps<T>) {
     const values = React.useContext(ProviderContext);
-    const memo = [value, ...values];
-    const memoized = React.useMemo(() => memo, memo);
+    const entry = [of, value];
+    const memoEntry = React.useMemo(() => entry, entry);
+
+    const entries = [memoEntry, ...values];
+    const memoEntries = React.useMemo(() => entries, entries);
     return (
-        <ProviderContext.Provider value={memoized}>
+        <ProviderContext.Provider value={memoEntries}>
             { children }
         </ProviderContext.Provider>
     );
