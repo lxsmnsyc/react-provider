@@ -33,7 +33,7 @@ export type ProviderKey = string;
 export interface ProviderProps<T> {
     value: T,
     of?: ProviderKey,
-    children: React.ReactNode,
+    children?: React.ReactNode,
 }
 
 export function Provider<T>({ value, of, children }: ProviderProps<T>) {
