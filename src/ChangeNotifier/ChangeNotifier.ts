@@ -27,7 +27,7 @@
  */
 export type ChangeNotifierListener = () => void;
 
-export default class ChangeNotifier {
+export class ChangeNotifier {
     private listeners: Set<ChangeNotifierListener>;
 
     constructor() {
