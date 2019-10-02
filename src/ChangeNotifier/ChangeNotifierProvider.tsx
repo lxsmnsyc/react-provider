@@ -27,12 +27,12 @@
  */
 import * as React from 'react';
 import { ChangeNotifier } from "./ChangeNotifier";
-import { Provider, ProviderKey } from '../Provider';
+import { Provider, ProviderKey, ProviderProps } from '../Provider';
 
-export interface ChangeNotifierProviderProps<T> {
+export interface ChangeNotifierProviderProps<T extends ChangeNotifier> extends ProviderProps<T> {
     of?: ProviderKey,
     value: T,
-    children: React.ReactNode,
+    children?: React.ReactNode,
 };
 
 export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: ChangeNotifierProviderProps<T>) {
