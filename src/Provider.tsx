@@ -30,13 +30,13 @@ import ProviderContext from './ProviderContext';
 
 export type ProviderKey = string;
 
-interface ProviderProps<T> {
+export interface ProviderProps<T> {
     value: T,
     of?: ProviderKey,
     children: React.ReactNode,
 }
 
-export default function Provider<T>({ value, of, children }: ProviderProps<T>) {
+export function Provider<T>({ value, of, children }: ProviderProps<T>) {
     const values = React.useContext(ProviderContext);
     const entry = [of, value];
     const memoEntry = React.useMemo(() => entry, entry);
