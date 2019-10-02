@@ -26,11 +26,11 @@
  * @copyright Alexis Munsayac 2019
  */
 import { PromiseResult } from "./PromiseProvider";
-import { useProvider } from "../useProvider";
+import { useProvider, ProviderFinder } from "../useProvider";
 
-export type PromiseProviderFilter<T> = (x: any) => x is PromiseResult<T>;
+export type PromiseProviderFinder<T> = ProviderFinder<PromiseResult<T>>;
 
-export default function usePromiseProvider<T>(filter: PromiseProviderFilter<T>): PromiseResult<T> {
+export function usePromiseProvider<T>(filter: PromiseProviderFinder<T>): PromiseResult<T> {
     return useProvider<PromiseResult<T>>(filter, {
         state: 'default',
     });
