@@ -25,11 +25,31 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { useContext } from 'react';
+import * as React from 'react';
 import ProviderContext from './ProviderContext';
+import { ProviderKey } from './Provider';
 
 export type ProviderFilter<T> = (x: any) => x is T;
 
-export function useProvider<T>(filter: ProviderFilter<T>, defaultValue: T) {
-    return useContext(ProviderContext).filter(filter).reduce((acc, x) => acc ? acc : x, defaultValue);
+export type ProviderFinder<T> = ProviderFilter<T> | ProviderKey;
+
+function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
+    if (typeof finder === 'function') {
+        return values.find(([, value]) => finder(value));
+    }
+    if (typeof finder === 'string') {
+        return values.find(([key]) => key === finder);
+    }
+    return null;
+}
+
+export function useProvider<T>(finder: ProviderFinder<T>, defaultValue: T) {
+    const values = React.useContext(ProviderContext);
+
+    const result = findValue(finder, values);
+
+    if (result == null) {
+        return defaultValue;
+    }
+    return result[1];
 }
