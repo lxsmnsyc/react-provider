@@ -1,3 +1,4 @@
-import { createContext } from 'react';
+import * as React from 'react';
 
-export default createContext<any[]>([]);
+const ProviderContext: React.Context<any[]> = React.createContext<any[]>([]);
+export default ProviderContext;
