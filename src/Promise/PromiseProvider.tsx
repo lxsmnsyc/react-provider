@@ -26,11 +26,12 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { Provider, ProviderKey } from '../Provider';
-interface PromiseProviderProps<T> {
+import { Provider, ProviderKey, ProviderProps } from '../Provider';
+
+export interface PromiseProviderProps<T> extends ProviderProps<Promise<T>> {
     of?: ProviderKey,
     value: Promise<T>,
-    children: React.ReactNode,
+    children?: React.ReactNode,
 };
 
 export type PromiseStates = 'default' | 'loading' | 'success' | 'failure';
