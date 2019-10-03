@@ -26,9 +26,9 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { Provider, ProviderKey, ProviderProps } from '../Provider';
+import { IProviderProps, Provider, ProviderKey } from '../Provider';
 
-export interface PromiseProviderProps<T> extends ProviderProps<Promise<T>> {
+export interface IPromiseProviderProps<T> extends IProviderProps<Promise<T>> {
     of?: ProviderKey,
     value: Promise<T>,
     children?: React.ReactNode,
@@ -36,31 +36,31 @@ export interface PromiseProviderProps<T> extends ProviderProps<Promise<T>> {
 
 export type PromiseStates = 'default' | 'loading' | 'success' | 'failure';
 
-export type PromiseDefault = {
+export interface IPromiseDefault {
     state: 'default',
     error?: null,
     value?: null,
-};
+}
 
-export type PromiseLoading = {
+export interface IPromiseLoading {
     state: 'loading',
     error?: null,
     value?: null,
-};
+}
 
-export type PromiseSuccess<T> = {
+export interface IPromiseSuccess<T> {
     state: 'success',
     value?: T,
     error?: null,
 };
 
-export type PromiseFailure = {
+export interface IPromiseFailure {
     state: 'failure',
     error?: Error,
     value?: null,
 };
 
-export type PromiseResult<T> = PromiseDefault | PromiseLoading | PromiseSuccess<T> | PromiseFailure;
+export type PromiseResult<T> = IPromiseDefault | IPromiseLoading | IPromiseSuccess<T> | IPromiseFailure;
 
 function usePromise<T>(promise: Promise<T>) {
     const [state, setState] = React.useState<PromiseResult<T>>({
@@ -101,7 +101,7 @@ function usePromise<T>(promise: Promise<T>) {
     return state;
 }
 
-export function PromiseProvider<T>({ of, value, children }: PromiseProviderProps<T>) {
+export function PromiseProvider<T>({ of, value, children }: IPromiseProviderProps<T>) {
     const state = usePromise(value);
     return (
         <Provider of={of} value={state}>
