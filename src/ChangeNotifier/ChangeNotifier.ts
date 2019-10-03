@@ -25,13 +25,27 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-export type ChangeNotifierListener = () => void;
+import { Action } from "../utils/Function";
 
+export type ChangeNotifierListener = Action;
+
+/**
+ * A class that acts similarly to an EventTarget interface, with the
+ * exceptions of:
+ * - notifying callbacks are debounced.
+ * - callbacks are called asynchronously.
+ */
 export class ChangeNotifier {
+    /**
+     * Contains the listeners
+     */
     private listeners: Set<ChangeNotifierListener>;
+
+    private scheduled: boolean;
 
     constructor() {
         this.listeners = new Set<ChangeNotifierListener>();
+        this.scheduled = false;
     }
 
     public addListener(listener: ChangeNotifierListener) {
@@ -43,6 +57,28 @@ export class ChangeNotifier {
     }
 
     public notifyListeners() {
-        new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
+        /**
+         * Debounce calls
+         */
+        if (this.scheduled) {
+            return;
+        }
+        this.scheduled = true;
+
+        /**
+         * Schedule the task
+         */
+        Promise.resolve().then(() => {
+            /**
+             * Allow debouncing
+             */
+            this.scheduled = false;
+
+            /**
+             * Clone the Set instance to prevent synchronous
+             * addListener calls
+             */
+            new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
+        });
     }
 }
