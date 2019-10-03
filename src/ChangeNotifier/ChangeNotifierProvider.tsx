@@ -26,13 +26,13 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
+import { IProviderProps, Provider, ProviderKey } from '../Provider';
 import { ChangeNotifier } from "./ChangeNotifier";
-import { Provider, ProviderKey, ProviderProps } from '../Provider';
 
 /**
  * Property type definitions for the ChangeNotifierProvider
  */
-export interface ChangeNotifierProviderProps<T extends ChangeNotifier> extends ProviderProps<T> {
+export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends IProviderProps<T> {
     of?: ProviderKey,
     value: T,
     children?: React.ReactNode,
@@ -42,7 +42,7 @@ export interface ChangeNotifierProviderProps<T extends ChangeNotifier> extends P
  * A ChangeNotifierProvider is a kind of Provider component which exposes an instance of a class
  * which extends ChangeNotifier
  */
-export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: ChangeNotifierProviderProps<T>) {
+export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: IChangeNotifierProviderProps<T>) {
     return (
         <Provider of={of} value={value}>
             { children }
