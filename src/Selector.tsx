@@ -27,21 +27,94 @@
  */
 import * as React from 'react';
 import { useProvider, ProviderFinder } from './useProvider';
+import { Function, BiFunction } from './utils/Function';
+import { Optional } from './utils/Optional';
 
-export type SelectorBuilder<T> = (value: T, children: React.ReactNode) => React.ReactElement;
+export type SelectorFunction<T, R> = Function<T, R>;
 
-export interface SelectorProps<T, R> {
-    of: ProviderFinder<T>,
-    selector: (value: T) => R,
-    builder: SelectorBuilder<R>,
+/**
+ * A builder function type for the Selector.builder property
+ */
+export type SelectorBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.ReactElement>;
+
+/**
+ * Prop type definition for the SelectorComponent (Selector.component)
+ */
+export interface SelectorComponentProps<T> {
+    value: T,
     children?: React.ReactNode,
-    defaultValue: T,
 }
 
-export function Selector<T, R>({ of, selector, builder, defaultValue, children }: SelectorProps<T, R>) {
-    const value = useProvider<T>(of, defaultValue);
+/**
+ * Type definition for the SelectorComponent (Selector.component)
+ */
+export type SelectorComponent<T> = React.ComponentType<SelectorComponentProps<T>>;
 
+/**
+ * Prop type definition for the Selector component
+ */
+export interface SelectorProps<T, R> {
+    of: ProviderFinder<T>,
+    selector: SelectorFunction<T, R>,
+    children?: React.ReactNode,
+    builder?: SelectorBuilder<R>,
+    component?: SelectorComponent<R>,
+    defaultValue?: T,
+}
+
+/**
+ * A Selector component is a kind of Consumer component that can filter
+ * the exposed value from a Provider and prevents re-building the generated
+ * component if the selector value doesn't change.
+ * 
+ * A Selector can accept a builder function, which is a function that produces
+ * a React.Element, or a component value, which accepts a React.ComponentType.
+ * If both values are provided, the component value is returned first, otherwise,
+ * the builder function is called.
+ * 
+ * If the selected value didn't change, the builder won't be called again until
+ * such time the value changes.
+ */
+export function Selector<T, R>({ of, selector, builder, component, defaultValue, children }: SelectorProps<T, R>) {
+    /**
+     * Consume value from the Provider
+     */
+    const value = useProvider<Optional<T>>(of, defaultValue);
+
+    /**
+     * Check if the value does not exist
+     */
+    if (value == null) {
+        return null;
+    }
+    /**
+     * Perform value selection
+     */
     const selected = selector(value);
+    /**
+     * Check if a React.Component is passed
+     */
+    if (component != null) {
+        const SelectedComponent = component;
 
-    return React.useMemo(() => builder(selected, children), [ selected ]);
+        /**
+         * Render the component with the selected value.
+         */
+        return (
+            <SelectedComponent value={selected}>
+                { children }
+            </SelectedComponent>
+        );
+    }
+    /**
+     * Check for the builder function.
+     */
+    if (builder != null) {
+        /**
+         * Memoize the result of the builder to prevent re-build calls,
+         * where the selected value is a dependency value.
+         */
+        return React.useMemo(() => builder(selected, children), [ selected ]);
+    }
+    return null;
 }
