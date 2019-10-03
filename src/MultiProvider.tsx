@@ -26,18 +26,18 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { ProviderProps } from "./Provider";
+import { IProviderProps } from "./Provider";
 
 /**
  * Type definition for the allowed elements for the providers list.
  */
-export type ProviderType = React.ComponentType<ProviderProps<any>>;
+export type ProviderType = React.ComponentType<IProviderProps<any>>;
 
 /**
  * Prop type annotation for the MultiProvider
  */
-export interface MultiProviderProps {
-    providers: React.ReactElement<ProviderProps<any>, ProviderType>[],
+export interface IMultiProviderProps {
+    providers: Array<React.ReactElement<IProviderProps<any>, ProviderType>>,
     children: React.ReactNode,
 }
 
@@ -48,7 +48,7 @@ export interface MultiProviderProps {
  * Provider; MultiProvider maintains the same level of nesting
  * while also maintaing the Provider nesting level.
  */
-export function MultiProvider({ providers, children }: MultiProviderProps) {
+export function MultiProvider({ providers, children }: IMultiProviderProps) {
     return (
         <>
             {providers.reduceRight((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
