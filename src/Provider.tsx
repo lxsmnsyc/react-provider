@@ -36,7 +36,7 @@ export type ProviderKey = string;
 /**
  * Prop type annotation for the Provider
  */
-export interface ProviderProps<T> {
+export interface IProviderProps<T> {
     value: T,
     of?: ProviderKey,
     children?: React.ReactNode,
@@ -47,7 +47,7 @@ export interface ProviderProps<T> {
  * component tree. The components inside that tree can consume this
  * value through the use of Consumers or Selectors.
  */
-export function Provider<T>({ value, of, children }: ProviderProps<T>) {
+export function Provider<T>({ value, of, children }: IProviderProps<T>) {
     /**
      * Gets the contextual value list
      */
