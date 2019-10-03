@@ -28,13 +28,22 @@
 import * as React from 'react';
 import { usePromiseProvider, PromiseProviderFinder } from "./usePromiseProvider";
 import { PromiseDefault, PromiseResult, PromiseLoading, PromiseSuccess, PromiseFailure } from "./PromiseProvider";
+import { Optional } from '../utils/Optional';
+import { Function, BiFunction } from '../utils/Function';
+
+export type PromiseConsumerOnDefaultBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnLoadingBuilder = PromiseConsumerOnDefaultBuilder;
+export type PromiseConsumerOnSuccessBuilder<T> = BiFunction<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnFailureBuilder = BiFunction<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
+export type PromiseConsumerBuilder<T> = BiFunction<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
 
 export interface PromiseConsumerProps<T> {
     of: PromiseProviderFinder<T>,
-    onDefault?: (children: React.ReactNode) => React.ReactElement,
-    onLoading?: (children: React.ReactNode) => React.ReactElement,
-    onSuccess?: (value: T, children: React.ReactNode) => React.ReactElement,
-    onFailure?: (error: Error, children: React.ReactNode) => React.ReactElement,
+    onDefault?: PromiseConsumerOnDefaultBuilder,
+    onLoading?: PromiseConsumerOnLoadingBuilder,
+    onSuccess?: PromiseConsumerOnSuccessBuilder<T>,
+    onFailure?: PromiseConsumerOnFailureBuilder,
+    builder?: PromiseConsumerBuilder<T>,
     children?: React.ReactNode,
 };
 
@@ -51,9 +60,15 @@ function PromiseFailureFilter<T>(x: PromiseResult<T>): x is PromiseFailure {
     return (x as PromiseFailure).state === 'failure';
 }
 
-export function PromiseConsumer<T>({ of, onDefault, onLoading, onSuccess, onFailure, children }: PromiseConsumerProps<T>) {
+export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: PromiseConsumerProps<T>) {
     const result = usePromiseProvider<T>(of);
 
+    if (result == null) {
+        return null;
+    }
+    if (builder != null) {
+        return builder(result, children);
+    }
     if (onLoading && PromiseLoadingFilter(result)) {
         return onLoading(children);
     }
