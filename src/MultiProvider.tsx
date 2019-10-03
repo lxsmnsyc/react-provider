@@ -28,17 +28,30 @@
 import * as React from 'react';
 import { ProviderProps } from "./Provider";
 
-export type ProviderType = React.FC<ProviderProps<any>>;
+/**
+ * Type definition for the allowed elements for the providers list.
+ */
+export type ProviderType = React.ComponentType<ProviderProps<any>>;
 
+/**
+ * Prop type annotation for the MultiProvider
+ */
 export interface MultiProviderProps {
     providers: React.ReactElement<ProviderProps<any>, ProviderType>[],
     children: React.ReactNode,
 }
 
+/**
+ * a MultiProvider component is a kind of component which
+ * allows composition of Provider elements. Another purpose
+ * of MultiProvider is to prevent writing up deeply nested
+ * Provider; MultiProvider maintains the same level of nesting
+ * while also maintaing the Provider nesting level.
+ */
 export function MultiProvider({ providers, children }: MultiProviderProps) {
     return (
         <>
-            {providers.reverse().reduce((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
+            {providers.reduceRight((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
         </>
-    )
+    );
 }
