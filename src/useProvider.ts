@@ -26,8 +26,8 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import ProviderContext from './ProviderContext';
 import { ProviderKey } from './Provider';
+import ProviderContext from './ProviderContext';
 import { Optional } from './utils/Optional';
 
 /**
