@@ -26,11 +26,11 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { EventTargetProviderFinder, useEventTargetProvider, EventOptions } from "./useEventTargetProvider";
+import { EventOptions, EventTargetProviderFinder, useEventTargetProvider } from "./useEventTargetProvider";
 
 export type EventTargetBuilder = (event: Event, children: React.ReactNode) => React.ReactElement;
 
-interface EventTargetConsumerProps<T extends EventTarget> {
+interface IEventTargetConsumerProps<T extends EventTarget> {
     of: EventTargetProviderFinder<T>,
     builder: EventTargetBuilder,
     children?: React.ReactNode,
@@ -38,8 +38,11 @@ interface EventTargetConsumerProps<T extends EventTarget> {
     options?: EventOptions,
 }
 
-export function EventTargetConsumer<T extends EventTarget>({ of, builder, children, eventType, options }: EventTargetConsumerProps<T>) {
+export function EventTargetConsumer<T extends EventTarget>({ of, builder, children, eventType, options }: IEventTargetConsumerProps<T>) {
     const value = useEventTargetProvider<T>(of, eventType, options);
 
-    return value && builder(value, children);
+    if (value == null) {
+        return null;
+    }
+    return builder(value, children);
 }
