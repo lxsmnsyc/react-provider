@@ -28,28 +28,53 @@
 import * as React from 'react';
 import { ChangeNotifier, ChangeNotifierListener } from "./ChangeNotifier";
 import { useProvider, ProviderFinder } from "../useProvider";
+import { Optional } from '../utils/Optional';
 
+/**
+ * Defines the ProviderFinder for ChangeNotiferProvider
+ */
 export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
-type OptionalChangeNotifier<T> = T | null;
 
+/**
+ * A hook which gets the nearest corresponding ChangeNotifier
+ * instance (given a finder) up to the root Provider.
+ */
 export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true) {
-    const value = useProvider<OptionalChangeNotifier<T>>(of, null);
+    /**
+     * Gets the corresponding notifier
+     */
+    const value = useProvider<Optional<T>>(of);
+    /**
+     * Used for forcing re-renders whenever the component
+     * needs to be notified.
+     */
     const [state, setState] = React.useState<boolean>(false);
 
     React.useEffect(() => {
+        /**
+         * If there is a value found, and we need to listen for
+         * notifications.
+         */
         if (value && listen) {
+            /**
+             * Define the callback
+             */
             const callback: ChangeNotifierListener = () => {
                 setState(!state);
             };
 
+            /**
+             * Add the callback to the listeners
+             */
             value.addListener(callback);
 
-            return () => {
-                value.removeListener(callback);
-            };
+            return () => value.removeListener(callback);
         }
         return () => {};
     }, [ value, listen, state ]);
 
+    /**
+     * expose the instance
+     */
     return value;
 }
