@@ -26,10 +26,10 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { usePromiseProvider, PromiseProviderFinder } from "./usePromiseProvider";
-import { PromiseDefault, PromiseResult, PromiseLoading, PromiseSuccess, PromiseFailure } from "./PromiseProvider";
+import { BiFunction, Function } from '../utils/Function';
 import { Optional } from '../utils/Optional';
-import { Function, BiFunction } from '../utils/Function';
+import { IPromiseDefault, IPromiseFailure, IPromiseLoading, IPromiseSuccess, PromiseResult } from "./PromiseProvider";
+import { PromiseProviderFinder, usePromiseProvider } from "./usePromiseProvider";
 
 export type PromiseConsumerOnDefaultBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
 export type PromiseConsumerOnLoadingBuilder = PromiseConsumerOnDefaultBuilder;
@@ -37,7 +37,7 @@ export type PromiseConsumerOnSuccessBuilder<T> = BiFunction<Optional<T>, Optiona
 export type PromiseConsumerOnFailureBuilder = BiFunction<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
 export type PromiseConsumerBuilder<T> = BiFunction<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
 
-export interface PromiseConsumerProps<T> {
+export interface IPromiseConsumerProps<T> {
     of: PromiseProviderFinder<T>,
     onDefault?: PromiseConsumerOnDefaultBuilder,
     onLoading?: PromiseConsumerOnLoadingBuilder,
@@ -47,20 +47,20 @@ export interface PromiseConsumerProps<T> {
     children?: React.ReactNode,
 };
 
-function PromiseDefaultFilter<T>(x: PromiseResult<T>): x is PromiseDefault {
-    return (x as PromiseDefault).state === 'default';
+function PromiseDefaultFilter<T>(x: PromiseResult<T>): x is IPromiseDefault {
+    return (x as IPromiseDefault).state === 'default';
 }
-function PromiseLoadingFilter<T>(x: PromiseResult<T>): x is PromiseLoading {
-    return (x as PromiseLoading).state === 'loading';
+function PromiseLoadingFilter<T>(x: PromiseResult<T>): x is IPromiseLoading {
+    return (x as IPromiseLoading).state === 'loading';
 }
-function PromiseSuccessFilter<T>(x: PromiseResult<T>): x is PromiseSuccess<T> {
-    return (x as PromiseSuccess<T>).state === 'success';
+function PromiseSuccessFilter<T>(x: PromiseResult<T>): x is IPromiseSuccess<T> {
+    return (x as IPromiseSuccess<T>).state === 'success';
 }
-function PromiseFailureFilter<T>(x: PromiseResult<T>): x is PromiseFailure {
-    return (x as PromiseFailure).state === 'failure';
+function PromiseFailureFilter<T>(x: PromiseResult<T>): x is IPromiseFailure {
+    return (x as IPromiseFailure).state === 'failure';
 }
 
-export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: PromiseConsumerProps<T>) {
+export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: IPromiseConsumerProps<T>) {
     const result = usePromiseProvider<T>(of);
 
     if (result == null) {
