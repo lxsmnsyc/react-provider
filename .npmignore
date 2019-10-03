@@ -1,0 +1,11 @@
+docs
+example
+.travis.yml
+.editorconfig
+rollup.config.js
+tsconfig.json
+yarn-error.log
+yarn.lock
+tsconfig.test.json
+doczrc.js
+.git
