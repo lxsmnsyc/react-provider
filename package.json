@@ -1,7 +1,7 @@
 {
   "name": "@lxsmnsyc/react-provider",
   "version": "0.1.0",
-  "description": "Flutter&#x27;s Depedency Injection pattern for React",
+  "description": "Flutter's Depedency Injection pattern for React",
   "author": "LXSMNSYC",
   "license": "MIT",
   "repository": "LXSMNSYC/react-provider",
@@ -50,6 +50,10 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^4.1.0",
     "typescript": "^2.8.3"
   },
   "files": [
