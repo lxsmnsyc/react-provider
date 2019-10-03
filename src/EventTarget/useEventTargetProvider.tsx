@@ -27,15 +27,13 @@
  */
 import * as React from 'react';
 import { ProviderFinder, useProvider } from "../useProvider";
+import { Optional } from '../utils/Optional';
 
 export type EventTargetProviderFinder<T extends EventTarget> = ProviderFinder<T>;
 export type EventOptions = boolean | AddEventListenerOptions;
 
-type OptionalEventTarget = EventTarget | null;
-type OptionalEvent = Event | null;
-
 function useEventTarget(eventTarget: EventTarget, eventType: string, options?: EventOptions) {
-    const [state, setState] = React.useState<OptionalEvent>(null);
+    const [state, setState] = React.useState<Optional<Event>>(null);
 
     React.useEffect(() => {
         const listener = (e: Event) => setState(e);
@@ -48,8 +46,8 @@ function useEventTarget(eventTarget: EventTarget, eventType: string, options?: E
     return state;
 }
 
-export function useEventTargetProvider<T extends EventTarget>(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): OptionalEvent {
-    const eventTarget = useProvider<OptionalEventTarget>(of, null);
+export function useEventTargetProvider<T extends EventTarget>(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): Optional<Event> {
+    const eventTarget = useProvider<Optional<EventTarget>>(of, null);
 
     if (eventTarget) {
         return useEventTarget(eventTarget, eventType, options);
