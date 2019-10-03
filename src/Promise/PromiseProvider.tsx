@@ -50,13 +50,13 @@ export type PromiseLoading = {
 
 export type PromiseSuccess<T> = {
     state: 'success',
-    value: T,
+    value?: T,
     error?: null,
 };
 
 export type PromiseFailure = {
     state: 'failure',
-    error: Error,
+    error?: Error,
     value?: null,
 };
 
