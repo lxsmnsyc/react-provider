@@ -27,11 +27,10 @@
  */
 import { PromiseResult } from "./PromiseProvider";
 import { useProvider, ProviderFinder } from "../useProvider";
+import { Optional } from "../utils/Optional";
 
 export type PromiseProviderFinder<T> = ProviderFinder<PromiseResult<T>>;
 
-export function usePromiseProvider<T>(filter: PromiseProviderFinder<T>): PromiseResult<T> {
-    return useProvider<PromiseResult<T>>(filter, {
-        state: 'default',
-    });
+export function usePromiseProvider<T>(finder: PromiseProviderFinder<T>): Optional<PromiseResult<T>> {
+    return useProvider<Optional<PromiseResult<T>>>(finder);
 }
