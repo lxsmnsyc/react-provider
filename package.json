@@ -1,6 +1,6 @@
 {
-  "name": "react-provider",
-  "version": "1.0.0",
+  "name": "@lxsmnsyc/react-provider",
+  "version": "0.1.0",
   "description": "Flutter&#x27;s Depedency Injection pattern for React",
   "author": "LXSMNSYC",
   "license": "MIT",
