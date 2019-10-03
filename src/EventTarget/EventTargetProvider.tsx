@@ -26,15 +26,15 @@ import * as React from 'react';
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { ProviderKey, ProviderProps, Provider } from "../Provider";
+import { IProviderProps, Provider, ProviderKey } from "../Provider";
 
-export interface EventTargetProviderProps<T extends EventTarget> extends ProviderProps<T>{
+export interface IEventTargetProviderProps<T extends EventTarget> extends IProviderProps<T>{
     of?: ProviderKey,
     value: T,
     children?: React.ReactNode,
 }
 
-export function EventTargetProvider<T extends EventTarget>({ of, value, children }: EventTargetProviderProps<T>) {
+export function EventTargetProvider<T extends EventTarget>({ of, value, children }: IEventTargetProviderProps<T>) {
     return (
         <Provider of={of} value={value}>
             { children }
