@@ -26,9 +26,9 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { ChangeNotifier, ChangeNotifierListener } from "./ChangeNotifier";
-import { useProvider, ProviderFinder } from "../useProvider";
+import { ProviderFinder, useProvider } from "../useProvider";
 import { Optional } from '../utils/Optional';
+import { ChangeNotifier, ChangeNotifierListener } from "./ChangeNotifier";
 
 /**
  * Defines the ProviderFinder for ChangeNotiferProvider
@@ -70,7 +70,7 @@ export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNo
 
             return () => value.removeListener(callback);
         }
-        return () => {};
+        return () => null;
     }, [ value, listen, state ]);
 
     /**
