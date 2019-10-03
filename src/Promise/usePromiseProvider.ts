@@ -25,9 +25,9 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { PromiseResult } from "./PromiseProvider";
-import { useProvider, ProviderFinder } from "../useProvider";
+import { ProviderFinder, useProvider } from "../useProvider";
 import { Optional } from "../utils/Optional";
+import { PromiseResult } from "./PromiseProvider";
 
 export type PromiseProviderFinder<T> = ProviderFinder<PromiseResult<T>>;
 
