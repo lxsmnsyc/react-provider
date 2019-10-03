@@ -26,8 +26,8 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { useProvider, ProviderFinder } from './useProvider';
-import { Function, BiFunction } from './utils/Function';
+import { ProviderFinder, useProvider } from './useProvider';
+import { BiFunction, Function } from './utils/Function';
 import { Optional } from './utils/Optional';
 
 export type SelectorFunction<T, R> = Function<T, R>;
@@ -40,7 +40,7 @@ export type SelectorBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.
 /**
  * Prop type definition for the SelectorComponent (Selector.component)
  */
-export interface SelectorComponentProps<T> {
+export interface ISelectorComponentProps<T> {
     value: T,
     children?: React.ReactNode,
 }
@@ -48,12 +48,12 @@ export interface SelectorComponentProps<T> {
 /**
  * Type definition for the SelectorComponent (Selector.component)
  */
-export type SelectorComponent<T> = React.ComponentType<SelectorComponentProps<T>>;
+export type SelectorComponent<T> = React.ComponentType<ISelectorComponentProps<T>>;
 
 /**
  * Prop type definition for the Selector component
  */
-export interface SelectorProps<T, R> {
+export interface ISelectorProps<T, R> {
     of: ProviderFinder<T>,
     selector: SelectorFunction<T, R>,
     children?: React.ReactNode,
@@ -75,7 +75,7 @@ export interface SelectorProps<T, R> {
  * If the selected value didn't change, the builder won't be called again until
  * such time the value changes.
  */
-export function Selector<T, R>({ of, selector, builder, component, defaultValue, children }: SelectorProps<T, R>) {
+export function Selector<T, R>({ of, selector, builder, component, defaultValue, children }: ISelectorProps<T, R>) {
     /**
      * Consume value from the Provider
      */
