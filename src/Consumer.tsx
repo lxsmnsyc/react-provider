@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { useProvider, ProviderFinder } from './useProvider';
+import { ProviderFinder, useProvider } from './useProvider';
 import { BiFunction } from './utils/Function';
 import { Optional } from './utils/Optional';
 
@@ -38,7 +38,7 @@ export type ConsumerBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.
 /**
  * Property type definition for the Consumer component
  */
-export interface ConsumerProps<T> {
+export interface IConsumerProps<T> {
     of: ProviderFinder<T>,
     builder: ConsumerBuilder<T>,
     children?: React.ReactNode,
@@ -51,7 +51,7 @@ export interface ConsumerProps<T> {
  * is a ProviderFinder type. Consumers can then build an element through
  * the builder property.
  */
-export function Consumer<T>({ of, builder, children, defaultValue }: ConsumerProps<T>) {
+export function Consumer<T>({ of, builder, children, defaultValue }: IConsumerProps<T>) {
     const value = useProvider<T>(of, defaultValue);
 
     return React.useMemo(() => {
