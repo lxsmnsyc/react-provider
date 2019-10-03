@@ -28,11 +28,26 @@
 import * as React from 'react';
 import ProviderContext from './ProviderContext';
 import { ProviderKey } from './Provider';
+import { Optional } from './utils/Optional';
 
+/**
+ * A filter function which searches the up to the root
+ * Provider for the passing value.
+ */
 export type ProviderFilter<T> = (x: any) => x is T;
 
+/**
+ * Type annotation for a ProviderFinder which can be either
+ * a filter function or a key.
+ */
 export type ProviderFinder<T> = ProviderFilter<T> | ProviderKey;
 
+/**
+ * Searches up to the root Provider for the corresponding
+ * value.
+ * @param finder 
+ * @param values 
+ */
 function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
     if (typeof finder === 'function') {
         return values.find(([, value]) => finder(value));
@@ -43,13 +58,33 @@ function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
     return null;
 }
 
-export function useProvider<T>(finder: ProviderFinder<T>, defaultValue: T) {
+/**
+ * A hook which gets the nearest corresponding value (given a finder)
+ * up to the root Provider. If no corresponding value was found, the
+ * default value will be returned (if provided).
+ * @param finder 
+ * @param defaultValue 
+ */
+export function useProvider<T>(finder: ProviderFinder<T>, defaultValue?: T): Optional<T> {
+    /**
+     * Gets the contextual value list
+     */
     const values = React.useContext(ProviderContext);
 
+    /**
+     * finds the corresponding value
+     */
     const result = findValue(finder, values);
 
+    /**
+     * If no value was found, return the defaultValue.
+     */
     if (result == null) {
         return defaultValue;
     }
+    /**
+     * Since the value list are comprised of [key, value] tuples
+     * return the second value.
+     */
     return result[1];
 }
