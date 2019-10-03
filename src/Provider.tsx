@@ -28,21 +28,51 @@
 import * as React from 'react';
 import ProviderContext from './ProviderContext';
 
+/**
+ * A value that can be used as an identifier for the Provider
+ */
 export type ProviderKey = string;
 
+/**
+ * Prop type annotation for the Provider
+ */
 export interface ProviderProps<T> {
     value: T,
     of?: ProviderKey,
     children?: React.ReactNode,
 }
 
+/**
+ * A Provider component is a component that exposes a value in its
+ * component tree. The components inside that tree can consume this
+ * value through the use of Consumers or Selectors.
+ */
 export function Provider<T>({ value, of, children }: ProviderProps<T>) {
+    /**
+     * Gets the contextual value list
+     */
     const values = React.useContext(ProviderContext);
+
+    /**
+     * Declare the tuple entry for identifying this Provider.
+     */
     const entry = [of, value];
+
+    /**
+     * Memoize this entry to prevent unreasonable re-renders
+     */
     const memoEntry = React.useMemo(() => entry, entry);
 
+    /**
+     * Append the tuple entry to the value list.
+     */
     const entries = [memoEntry, ...values];
+
+    /**
+     * Memoize the value list to prevent unreasonable re-renders
+     */
     const memoEntries = React.useMemo(() => entries, entries);
+
     return (
         <ProviderContext.Provider value={memoEntries}>
             { children }
