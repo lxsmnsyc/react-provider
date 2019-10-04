@@ -1,0 +1,57 @@
+---
+name: Consumer
+route: '/consumer'
+---
+import { Playground, Props } from 'docz';
+import { Provider, Consumer } from '../../src';
+
+# Consumer
+
+A `<Consumer>` is a component that consumes the exposed value of an specific
+`<Provider>`. This `<Provider>` can be specified through `of` property which
+is identifies the `<Provider>`. A `<Consumer>` can then build an element through
+the `builder` property.
+
+
+## Basic Usage
+
+<Playground>
+  <Provider of="A" value="Hello World">
+    <Consumer of="A" builder={x => <h1>{ x }</h1>} />
+  </Provider>
+</Playground>
+
+## Provider Filters
+
+A `<Consumer>` can always use a filter function for the `of` property which filters the Providers' values up to the root Provider tree.
+
+<Playground>
+  <Provider value="Hello World">
+    <Provider value={100}>
+      <Provider value="Hello Joe">
+        <Consumer of={x => typeof x === 'number'} builder={x => <h1>{x}</h1>} />
+      </Provider>
+      <Consumer of={x => typeof x === 'string'} builder={x => <h2>{x}</h2>} />
+    </Provider>
+    <Consumer of={x => typeof x === 'string'} builder={x => <h3>{x}</h3>} />
+  </Provider>
+</Playground>
+
+## Children
+
+A `<Consumer>` can accept children which can be used for the `builder` property.
+
+<Playground>
+  <Provider of ="A" value="Hello World">
+    <Consumer of="A" builder={(value, child) => {
+      return (
+        <>
+          <h1>{ value }</h1>
+          <h2>{ child }</h2>
+        </>
+      );
+    }}>
+      Hello Joe
+    </Consumer>
+  </Provider>
+</Playground>
