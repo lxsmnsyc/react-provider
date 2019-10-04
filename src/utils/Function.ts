@@ -78,7 +78,7 @@ export type Consume9<T1, T2, T3, T4, T5, T6, T7, T8, T9> = Function9<T1, T2, T3,
  * Commonly used for deferring values, Suppliers do not accept
  * any value but it returns a value.
  */
-export type Supplier<R> = Function<None, R>;
+export type Supplier<R> = () => R;
 
 /**
  * Action
@@ -86,4 +86,4 @@ export type Supplier<R> = Function<None, R>;
  * Commonly used for side-effects, Actions are functions that do not
  * accept parameters, as well as, not returning any value.
  */
-export type Action = Function<None, None>;
+export type Action = () => None;
