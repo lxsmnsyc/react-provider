@@ -1,0 +1,58 @@
+---
+name: MultiProvider
+route: '/multiprovider'
+---
+import { Playground, Props } from 'docz';
+import { MultiProvider, Provider, Consumer } from '../../src';
+
+# MultiProvider
+
+Nesting `<Provider>` elements can be cumbersome in the codebase, and could lead to the `pyramid of doom`.
+The `<MultiProvider>` component seeks to solve this by allowing `<Provider>` composition while maintaining
+both the same level of nesting as well as component tree structure.
+
+This
+
+```tsx
+<Provider of="A" value="Foo">
+  <Provider of="B" value="Bar">
+    <Provider of="C" value="Baz">
+      <Consumer of="A" builder={x => <h1>{ x }</h1>} />
+      <Consumer of="B" builder={x => <h2>{ x }</h2>} />
+      <Consumer of="C" builder={x => <h3>{ x }</h3>} />
+    </Provider>
+  </Provider>
+</Provider>
+```
+
+can be rewritten to this
+
+```tsx
+<MultiProvider
+  providers={[
+    <Provider of="A" value="Foo" />,
+    <Provider of="B" value="Bar" />,
+    <Provider of="C" value="Baz" />
+  ]}
+>
+  <Consumer of="A" builder={x => <h1>{ x }</h1>} />
+  <Consumer of="B" builder={x => <h2>{ x }</h2>} />
+  <Consumer of="C" builder={x => <h3>{ x }</h3>} />
+</MultiProvider>
+```
+
+## Usage
+
+<Playground>
+  <MultiProvider
+  providers={[
+    <Provider of="A" value="Foo" />,
+    <Provider of="B" value="Bar" />,
+    <Provider of="C" value="Baz" />
+  ]}
+  >
+    <Consumer of="A" builder={x => <h1>{ x }</h1>} />
+    <Consumer of="B" builder={x => <h2>{ x }</h2>} />
+    <Consumer of="C" builder={x => <h3>{ x }</h3>} />
+  </MultiProvider>
+</Playground>
