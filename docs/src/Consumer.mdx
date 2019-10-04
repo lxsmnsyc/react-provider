@@ -1,8 +1,9 @@
 ---
 name: Consumer
 route: '/consumer'
+menu: Components
 ---
-import { Playground, Props } from 'docz';
+import { Playground, Props, Link } from 'docz';
 import { Provider, Consumer } from '../../src';
 
 # Consumer
@@ -12,6 +13,8 @@ A `<Consumer>` is a component that consumes the exposed value of an specific
 is identifies the `<Provider>`. A `<Consumer>` can then build an element through
 the `builder` property.
 
+A `<Consumer>` may throw an `ProviderNotFoundError` instance if the given identifier
+fails to find the corresponding `<Provider>` ancestor.
 
 ## Basic Usage
 
@@ -55,3 +58,7 @@ A `<Consumer>` can accept children which can be used for the `builder` property.
     </Consumer>
   </Provider>
 </Playground>
+
+## Properties
+
+<Props of={Consumer} />
