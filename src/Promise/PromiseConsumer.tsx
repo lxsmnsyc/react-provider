@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { BiFunction, Function } from '../utils/Function';
+import { Function, Function2 } from '../utils/Function';
 import { Optional } from '../utils/Optional';
 import { IPromiseDefault, IPromiseFailure, IPromiseLoading, IPromiseSuccess, PromiseResult } from './PromiseProvider';
 import { PromiseProviderFinder, usePromiseProvider } from './usePromiseProvider';
@@ -42,15 +42,15 @@ export type PromiseConsumerOnLoadingBuilder = Function<Optional<React.ReactNode>
 /**
  * Type definition for onSuccess builder
  */
-export type PromiseConsumerOnSuccessBuilder<T> = BiFunction<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnSuccessBuilder<T> = Function2<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
 /**
  * Type definition for onFailure builder
  */
-export type PromiseConsumerOnFailureBuilder = BiFunction<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
+export type PromiseConsumerOnFailureBuilder = Function2<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
 /**
  * Type definition for builder
  */
-export type PromiseConsumerBuilder<T> = BiFunction<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerBuilder<T> = Function2<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definitions for the PromiseConsumer
@@ -115,10 +115,6 @@ function PromiseFailureFilter<T>(x: PromiseResult<T>): x is IPromiseFailure {
  */
 export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: IPromiseConsumerProps<T>) {
   const result = usePromiseProvider<T>(of);
-
-  if (result == null) {
-    return null;
-  }
   if (builder != null) {
     return builder(result, children);
   }
