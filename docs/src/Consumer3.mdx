@@ -1,0 +1,29 @@
+---
+name: Consumer3
+route: '/consumer3'
+menu: Components
+---
+import { Playground, Props } from 'docz';
+import { MultiProvider, Provider, Consumer3 } from '../../src' 
+
+# Consumer3
+
+`<Consumer3>` component is similar to `<Consumer>` component but it can consume values from three nearest `<Provider`> ancestors.
+
+## Basic Usage
+
+<Playground>
+  <MultiProvider
+    providers={[
+      <Provider of="A" value="Foo" />,
+      <Provider of="B" value="Bar" />,
+      <Provider of="C" value="Baz" />,
+    ]}
+  >
+    <Consumer3 of={['A', 'B', 'C']} builder={(x, y, z) => <h1>{x} {y} {z}</h1>} />
+  </MultiProvider>
+</Playground>
+
+## Properties
+
+<Props of={Consumer3} />
