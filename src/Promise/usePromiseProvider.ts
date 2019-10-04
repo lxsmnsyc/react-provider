@@ -25,15 +25,14 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { ProviderFinder, useProvider } from "../useProvider";
-import { Optional } from "../utils/Optional";
-import { PromiseResult } from "./PromiseProvider";
+import { ProviderFinder, useProvider } from '../useProvider';
+import { PromiseResult } from './PromiseProvider';
 
 export type PromiseProviderFinder<T> = ProviderFinder<PromiseResult<T>>;
 
 /**
  * A PromiseProvider hook used for consuming the PromiseProvider states.
  */
-export function usePromiseProvider<T>(finder: PromiseProviderFinder<T>): Optional<PromiseResult<T>> {
-  return useProvider<Optional<PromiseResult<T>>>(finder);
+export function usePromiseProvider<T>(finder: PromiseProviderFinder<T>): PromiseResult<T> {
+  return useProvider<PromiseResult<T>>(finder);
 }
