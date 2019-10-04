@@ -27,13 +27,16 @@
  */
 import * as React from 'react';
 import { ProviderFinder, useProvider } from './useProvider';
-import { BiFunction } from './utils/Function';
+import { Function2, Function3, Function4, Function5 } from './utils/Function';
 import { Optional } from './utils/Optional';
 
 /**
  * type definition for the Consumer.builder property
  */
-export type ConsumerBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder<T> = Function2<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder2<T1, T2> = Function3<T1, T2, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder3<T1, T2, T3> = Function4<T1, T2, T3, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder4<T1, T2, T3, T4> = Function5<T1, T2, T3, T4, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definition for the Consumer component
@@ -52,7 +55,33 @@ export interface IConsumerProps<T> {
    */
   children?: React.ReactNode,
 }
-
+export interface IConsumer2Props<T1, T2> {
+  of: [
+    ProviderFinder<T1>,
+    ProviderFinder<T2>,
+  ],
+  builder: ConsumerBuilder2<T1, T2>,
+  children?: React.ReactNode,
+}
+export interface IConsumer3Props<T1, T2, T3> {
+  of: [
+    ProviderFinder<T1>,
+    ProviderFinder<T2>,
+    ProviderFinder<T3>,
+  ],
+  builder: ConsumerBuilder3<T1, T2, T3>,
+  children?: React.ReactNode,
+}
+export interface IConsumer4Props<T1, T2, T3, T4> {
+  of: [
+    ProviderFinder<T1>,
+    ProviderFinder<T2>,
+    ProviderFinder<T3>,
+    ProviderFinder<T4>,
+  ],
+  builder: ConsumerBuilder4<T1, T2, T3, T4>,
+  children?: React.ReactNode,
+}
 /**
  * A Consumer is a component that consumes the exposed value of an specific
  * Provider. This Provider can be specified through "of" property which
@@ -60,12 +89,31 @@ export interface IConsumerProps<T> {
  * the builder property.
  */
 export function Consumer<T>({ of, builder, children }: IConsumerProps<T>) {
-  const value = useProvider<Optional<T>>(of);
+  const value = useProvider<T>(of);
 
-  return React.useMemo(() => {
-    if (value == null) {
-      return null;
-    }
-    return builder(value, children)
-  }, [ value ]);
+  return React.useMemo(() => builder(value, children), [ builder, value ]);
+}
+
+export function Consumer2<T1, T2>({ of, builder, children }: IConsumer2Props<T1, T2>) {
+  const v1 = useProvider<T1>(of[0]);
+  const v2 = useProvider<T2>(of[1]);
+
+  return React.useMemo(() => builder(v1, v2, children), [ builder, v1, v2 ]);
+}
+
+export function Consumer3<T1, T2, T3>({ of, builder, children }: IConsumer3Props<T1, T2, T3>) {
+  const v1 = useProvider<T1>(of[0]);
+  const v2 = useProvider<T2>(of[1]);
+  const v3 = useProvider<T3>(of[2]);
+
+  return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3 ]);
+}
+
+export function Consumer4<T1, T2, T3, T4>({ of, builder, children }: IConsumer4Props<T1, T2, T3, T4>) {
+  const v1 = useProvider<T1>(of[0]);
+  const v2 = useProvider<T2>(of[1]);
+  const v3 = useProvider<T3>(of[2]);
+  const v4 = useProvider<T4>(of[3]);
+
+  return React.useMemo(() => builder(v1, v2, v3, v4, children), [ builder, v1, v2, v3, v4 ]);
 }
