@@ -1,6 +1,7 @@
 ---
 name: Provider
 route: '/provider'
+menu: Components
 ---
 import { Playground, Props } from 'docz';
 import { Provider, Consumer } from '../../src';
@@ -21,7 +22,8 @@ value through the use of `<Consumer>`s, `<Selector>`s or `<Provider>` Hooks.
 
 ## Nested Providers
 
-`<Consumer>`s will receive the value from the nearest `<Provider>` that corresponds to the given identifier, that is, if `<Provider>`s from the same tree has the same identifier.
+`<Consumer>`s will receive the value from the nearest `<Provider>` ancestor that corresponds
+to the given identifier, that is, if `<Provider>`s from the same tree has the same identifier.
 
 <Playground>
   <Provider of="A" value="Foo">
@@ -38,7 +40,8 @@ value through the use of `<Consumer>`s, `<Selector>`s or `<Provider>` Hooks.
 
 ## Provider Filters
 
-`Provider`s can omit the `of` property, but can still be identified by `<Consumer>`s through the use of filter functions.
+`Provider`s can omit the `of` property, but can still be identified by `<Consumer>`s through
+the use of filter functions. Like identifiers, only the nearest `<Provider>` ancestor will be accessed.
 
 <Playground>
   <Provider value="Hello World">
