@@ -1,0 +1,19 @@
+---
+name: ProxyProvider
+route: '/proxy-provider'
+menu: Components
+---
+import { Playground, Props } from 'docz';
+import { Provider, Consumer, ProxyProvider, MultiProvider, ProxyProvider2 } from '../../src';
+
+# ProxyProvider
+
+## Basic Usage
+
+<Playground>
+  <Provider of="A" value="Hello">
+    <ProxyProvider of="B" identifiers="A" builder={x => `${x} World`}>
+      <Consumer of="B" builder={x => <h1>{x}</h1>} />
+    </ProxyProvider>
+  </Provider>
+</Playground>
