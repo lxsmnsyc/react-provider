@@ -60,7 +60,7 @@ function useEventTarget(eventTarget: EventTarget, eventType: string, options?: E
  * A Provider hook which consumes the recently emitted Event value 
  */
 export function useEventTargetProvider<T extends EventTarget>(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): Optional<Event> {
-  const eventTarget = useProvider<Optional<EventTarget>>(of, null);
+  const eventTarget = useProvider<EventTarget>(of);
 
   if (eventTarget) {
     return useEventTarget(eventTarget, eventType, options);
