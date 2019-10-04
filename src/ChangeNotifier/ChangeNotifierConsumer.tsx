@@ -28,8 +28,8 @@
 import * as React from 'react';
 import { BiFunction } from '../utils/Function';
 import { Optional } from '../utils/Optional';
-import { ChangeNotifier } from "./ChangeNotifier";
-import { ChangeNotifierFinder, useChangeNotifierProvider } from "./useChangeNotifierProvider";
+import { ChangeNotifier } from './ChangeNotifier';
+import { ChangeNotifierFinder, useChangeNotifierProvider } from './useChangeNotifierProvider';
 
 /**
  * type definition for ChangeNotifierConsumer.builder property
@@ -40,15 +40,24 @@ export type ChangeNotifierBuilder<T extends ChangeNotifier> = BiFunction<T, Opti
  * property type definitions for the ChangeNotifierConsumer
  */
 export interface IChangeNotifierConsumerProps<T extends ChangeNotifier> {
-    of: ChangeNotifierFinder<T>,
-    children?: React.ReactNode,
-    builder: ChangeNotifierBuilder<T>,
+  /**
+   * Provider Identifier
+   */
+  of: ChangeNotifierFinder<T>,
+  /**
+   * Child elements for the builder
+   */
+  children?: React.ReactNode,
+  /**
+   * Builder function
+   */
+  builder: ChangeNotifierBuilder<T>,
 }
 
 export function ChangeNotifierConsumer<T extends ChangeNotifier>({ of, builder, children }: IChangeNotifierConsumerProps<T>) {
-    const value = useChangeNotifierProvider<T>(of, true);
-    if (value == null) {
-        return null;
-    }
-    return builder(value, children);
+  const value = useChangeNotifierProvider<T>(of, true);
+  if (value == null) {
+    return null;
+  }
+  return builder(value, children);
 };

@@ -26,86 +26,101 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { IProviderProps, Provider, ProviderKey } from '../Provider';
+import { IProviderProps, Provider } from '../Provider';
 
+/**
+ * Property type definitions for PromiseProvider
+ */
 export interface IPromiseProviderProps<T> extends IProviderProps<Promise<T>> {
-    of?: ProviderKey,
-    value: Promise<T>,
-    children?: React.ReactNode,
 };
 
+/**
+ * Identifies the state of a Promise value
+ */
 export type PromiseStates = 'default' | 'loading' | 'success' | 'failure';
 
 export interface IPromiseDefault {
-    state: 'default',
-    error?: null,
-    value?: null,
+  state: 'default',
+  error?: null,
+  value?: null,
 }
 
 export interface IPromiseLoading {
-    state: 'loading',
-    error?: null,
-    value?: null,
+  state: 'loading',
+  error?: null,
+  value?: null,
 }
 
 export interface IPromiseSuccess<T> {
-    state: 'success',
-    value?: T,
-    error?: null,
+  state: 'success',
+  value?: T,
+  error?: null,
 };
 
 export interface IPromiseFailure {
-    state: 'failure',
-    error?: Error,
-    value?: null,
+  state: 'failure',
+  error?: Error,
+  value?: null,
 };
 
 export type PromiseResult<T> = IPromiseDefault | IPromiseLoading | IPromiseSuccess<T> | IPromiseFailure;
 
+/**
+ * A hook for turning Promise instances to states.
+ */
 function usePromise<T>(promise: Promise<T>) {
-    const [state, setState] = React.useState<PromiseResult<T>>({
-        state: 'default',
-    });
+  const [state, setState] = React.useState<PromiseResult<T>>({
+    state: 'default',
+  });
 
-    const mounted = React.useRef(false);
+  const mounted = React.useRef(false);
 
-    /**
-     * Component lifecycle tracking
-     */
-    React.useEffect(() => {
-        mounted.current = true;
-        return () => {
-            mounted.current = false;
-        };
-    }, []);
+  /**
+   * Component lifecycle tracking
+   */
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
-    React.useEffect(() => {
-        setState({ state: 'loading' });
+  React.useEffect(() => {
+    setState({ state: 'loading' });
 
-        promise.then(
-            (value) => {
-                if (mounted.current) {
-                    setState({ state: 'success', value });
-                }
-                return value;
-            },
-            (error) => {
-                if (mounted.current) {
-                    setState({ state: 'failure', error });
-                }
-                return error;
-            }
-        );
-    }, [ promise ]);
+    promise.then(
+      (value) => {
+        if (mounted.current) {
+          setState({ state: 'success', value });
+        }
+        return value;
+      },
+      (error) => {
+        if (mounted.current) {
+          setState({ state: 'failure', error });
+        }
+        return error;
+      }
+    );
+  }, [ promise ]);
 
-    return state;
+  return state;
 }
 
+/**
+ * A PromiseProvider is a kind of Provider that receives a Promise instance but exposes its state.
+ * 
+ * There are 4 kinds of states:
+ * - Default: { state: 'default' }
+ * - Loading: { state: 'loading' }
+ * - Success: { state: 'success', value: T }
+ * - Failure: { state: 'failure', error: Error } 
+ */
 export function PromiseProvider<T>({ of, value, children }: IPromiseProviderProps<T>) {
-    const state = usePromise(value);
-    return (
-        <Provider of={of} value={state}>
-            { children }
-        </Provider>
-    );
+  const state = usePromise(value);
+  return (
+    <Provider of={of} value={state}>
+      { children }
+    </Provider>
+  );
 };

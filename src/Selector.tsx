@@ -41,8 +41,8 @@ export type SelectorBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.
  * Prop type definition for the SelectorComponent (Selector.component)
  */
 export interface ISelectorComponentProps<T> {
-    value: T,
-    children?: React.ReactNode,
+  value: T,
+  children?: React.ReactNode,
 }
 
 /**
@@ -54,12 +54,10 @@ export type SelectorComponent<T> = React.ComponentType<ISelectorComponentProps<T
  * Prop type definition for the Selector component
  */
 export interface ISelectorProps<T, R> {
-    of: ProviderFinder<T>,
-    selector: SelectorFunction<T, R>,
-    children?: React.ReactNode,
-    builder?: SelectorBuilder<R>,
-    component?: SelectorComponent<R>,
-    defaultValue?: T,
+  of: ProviderFinder<T>,
+  selector: SelectorFunction<T, R>,
+  children?: React.ReactNode,
+  builder: SelectorBuilder<R>,
 }
 
 /**
@@ -75,46 +73,26 @@ export interface ISelectorProps<T, R> {
  * If the selected value didn't change, the builder won't be called again until
  * such time the value changes.
  */
-export function Selector<T, R>({ of, selector, builder, component, defaultValue, children }: ISelectorProps<T, R>) {
-    /**
-     * Consume value from the Provider
-     */
-    const value = useProvider<Optional<T>>(of, defaultValue);
+export function Selector<T, R>({ of, selector, builder, children }: ISelectorProps<T, R>) {
+  /**
+   * Consume value from the Provider
+   */
+  const value = useProvider<Optional<T>>(of);
 
-    /**
-     * Check if the value does not exist
-     */
-    if (value == null) {
-        return null;
-    }
-    /**
-     * Perform value selection
-     */
-    const selected = selector(value);
-    /**
-     * Check if a React.Component is passed
-     */
-    if (component != null) {
-        const SelectedComponent = component;
-
-        /**
-         * Render the component with the selected value.
-         */
-        return (
-            <SelectedComponent value={selected}>
-                { children }
-            </SelectedComponent>
-        );
-    }
-    /**
-     * Check for the builder function.
-     */
-    if (builder != null) {
-        /**
-         * Memoize the result of the builder to prevent re-build calls,
-         * where the selected value is a dependency value.
-         */
-        return React.useMemo(() => builder(selected, children), [ selected ]);
-    }
+  /**
+   * Check if the value does not exist
+   */
+  if (value == null) {
     return null;
+  }
+  /**
+   * Perform value selection
+   */
+  const selected = selector(value);
+
+  /**
+   * Memoize the result of the builder to prevent re-build calls,
+   * where the selected value is a dependency value.
+   */
+  return React.useMemo(() => builder(selected, children), [ selected ]);
 }

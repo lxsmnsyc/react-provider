@@ -26,31 +26,44 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { ProviderFinder, useProvider } from "../useProvider";
+import { ProviderFinder, useProvider } from '../useProvider';
 import { Optional } from '../utils/Optional';
 
+/**
+ * Type definition for EventTargetProviderFinder
+ */
 export type EventTargetProviderFinder<T extends EventTarget> = ProviderFinder<T>;
+
+/**
+ * Type definition for EventOptions
+ */
 export type EventOptions = boolean | AddEventListenerOptions;
 
+/**
+ * A hook for handling event-listening logic
+ */
 function useEventTarget(eventTarget: EventTarget, eventType: string, options?: EventOptions) {
-    const [state, setState] = React.useState<Optional<Event>>(null);
+  const [state, setState] = React.useState<Optional<Event>>(null);
 
-    React.useEffect(() => {
-        const listener = (e: Event) => setState(e);
+  React.useEffect(() => {
+    const listener = (e: Event) => setState(e);
 
-        eventTarget.addEventListener(eventType, listener, options);
+    eventTarget.addEventListener(eventType, listener, options);
 
-        return () => eventTarget.removeEventListener(eventType, listener);
-    }, [ eventTarget, eventType, options ])
+    return () => eventTarget.removeEventListener(eventType, listener);
+  }, [ eventTarget, eventType, options ])
 
-    return state;
+  return state;
 }
 
+/**
+ * A Provider hook which consumes the recently emitted Event value 
+ */
 export function useEventTargetProvider<T extends EventTarget>(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): Optional<Event> {
-    const eventTarget = useProvider<Optional<EventTarget>>(of, null);
+  const eventTarget = useProvider<Optional<EventTarget>>(of, null);
 
-    if (eventTarget) {
-        return useEventTarget(eventTarget, eventType, options);
-    }
-    return null;
+  if (eventTarget) {
+    return useEventTarget(eventTarget, eventType, options);
+  }
+  return null;
 }

@@ -39,25 +39,33 @@ export type ConsumerBuilder<T> = BiFunction<T, Optional<React.ReactNode>, React.
  * Property type definition for the Consumer component
  */
 export interface IConsumerProps<T> {
-    of: ProviderFinder<T>,
-    builder: ConsumerBuilder<T>,
-    children?: React.ReactNode,
-    defaultValue?: T,
+  /**
+   * Provider identifier
+   */
+  of: ProviderFinder<T>,
+  /**
+   * Builder function
+   */
+  builder: ConsumerBuilder<T>,
+  /**
+   * Child elements
+   */
+  children?: React.ReactNode,
 }
 
 /**
  * A Consumer is a component that consumes the exposed value of an specific
  * Provider. This Provider can be specified through "of" property which
- * is a ProviderFinder type. Consumers can then build an element through
+ * is identifies the Provider. Consumers can then build an element through
  * the builder property.
  */
-export function Consumer<T>({ of, builder, children, defaultValue }: IConsumerProps<T>) {
-    const value = useProvider<T>(of, defaultValue);
+export function Consumer<T>({ of, builder, children }: IConsumerProps<T>) {
+  const value = useProvider<Optional<T>>(of);
 
-    return React.useMemo(() => {
-        if (value == null) {
-            return null;
-        }
-        return builder(value, children)
-    }, [ value ]);
+  return React.useMemo(() => {
+    if (value == null) {
+      return null;
+    }
+    return builder(value, children)
+  }, [ value ]);
 }

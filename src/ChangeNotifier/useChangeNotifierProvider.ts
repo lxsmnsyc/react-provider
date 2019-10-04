@@ -26,9 +26,9 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { ProviderFinder, useProvider } from "../useProvider";
+import { ProviderFinder, useProvider } from '../useProvider';
 import { Optional } from '../utils/Optional';
-import { ChangeNotifier, ChangeNotifierListener } from "./ChangeNotifier";
+import { ChangeNotifier, ChangeNotifierListener } from './ChangeNotifier';
 
 /**
  * Defines the ProviderFinder for ChangeNotiferProvider
@@ -40,41 +40,41 @@ export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
  * instance (given a finder) up to the root Provider.
  */
 export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true) {
+  /**
+   * Gets the corresponding notifier
+   */
+  const value = useProvider<Optional<T>>(of);
+  /**
+   * Used for forcing re-renders whenever the component
+   * needs to be notified.
+   */
+  const [state, setState] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
     /**
-     * Gets the corresponding notifier
+     * If there is a value found, and we need to listen for
+     * notifications.
      */
-    const value = useProvider<Optional<T>>(of);
-    /**
-     * Used for forcing re-renders whenever the component
-     * needs to be notified.
-     */
-    const [state, setState] = React.useState<boolean>(false);
+    if (value && listen) {
+      /**
+       * Define the callback
+       */
+      const callback: ChangeNotifierListener = () => {
+        setState(!state);
+      };
 
-    React.useEffect(() => {
-        /**
-         * If there is a value found, and we need to listen for
-         * notifications.
-         */
-        if (value && listen) {
-            /**
-             * Define the callback
-             */
-            const callback: ChangeNotifierListener = () => {
-                setState(!state);
-            };
+      /**
+       * Add the callback to the listeners
+       */
+      value.addListener(callback);
 
-            /**
-             * Add the callback to the listeners
-             */
-            value.addListener(callback);
+      return () => value.removeListener(callback);
+    }
+    return () => null;
+  }, [ value, listen, state ]);
 
-            return () => value.removeListener(callback);
-        }
-        return () => null;
-    }, [ value, listen, state ]);
-
-    /**
-     * expose the instance
-     */
-    return value;
+  /**
+   * expose the instance
+   */
+  return value;
 }

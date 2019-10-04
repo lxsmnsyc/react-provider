@@ -28,58 +28,111 @@
 import * as React from 'react';
 import { BiFunction, Function } from '../utils/Function';
 import { Optional } from '../utils/Optional';
-import { IPromiseDefault, IPromiseFailure, IPromiseLoading, IPromiseSuccess, PromiseResult } from "./PromiseProvider";
-import { PromiseProviderFinder, usePromiseProvider } from "./usePromiseProvider";
+import { IPromiseDefault, IPromiseFailure, IPromiseLoading, IPromiseSuccess, PromiseResult } from './PromiseProvider';
+import { PromiseProviderFinder, usePromiseProvider } from './usePromiseProvider';
 
+/**
+ * Type definition for onDefault builder
+ */
 export type PromiseConsumerOnDefaultBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
-export type PromiseConsumerOnLoadingBuilder = PromiseConsumerOnDefaultBuilder;
+/**
+ * Type definition for onLoading builder
+ */
+export type PromiseConsumerOnLoadingBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
+/**
+ * Type definition for onSuccess builder
+ */
 export type PromiseConsumerOnSuccessBuilder<T> = BiFunction<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
+/**
+ * Type definition for onFailure builder
+ */
 export type PromiseConsumerOnFailureBuilder = BiFunction<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
+/**
+ * Type definition for builder
+ */
 export type PromiseConsumerBuilder<T> = BiFunction<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
 
+/**
+ * Property type definitions for the PromiseConsumer
+ */
 export interface IPromiseConsumerProps<T> {
-    of: PromiseProviderFinder<T>,
-    onDefault?: PromiseConsumerOnDefaultBuilder,
-    onLoading?: PromiseConsumerOnLoadingBuilder,
-    onSuccess?: PromiseConsumerOnSuccessBuilder<T>,
-    onFailure?: PromiseConsumerOnFailureBuilder,
-    builder?: PromiseConsumerBuilder<T>,
-    children?: React.ReactNode,
+  /**
+   * Property identifier
+   */
+  of: PromiseProviderFinder<T>,
+  /**
+   * onDefault builder
+   * called before Consumer component mounts.
+   */
+  onDefault?: PromiseConsumerOnDefaultBuilder,
+  /**
+   * onLoading builder
+   * called after Consumer component mounts.
+   */
+  onLoading?: PromiseConsumerOnLoadingBuilder,
+  /**
+   * onSuccess builder
+   * called after Promise value resolves
+   */
+  onSuccess?: PromiseConsumerOnSuccessBuilder<T>,
+  /**
+   * onFailure builder
+   * called after Promise value rejects
+   */
+  onFailure?: PromiseConsumerOnFailureBuilder,
+  /**
+   * Superset of all builder functions; receives the PromiseResult
+   */
+  builder?: PromiseConsumerBuilder<T>,
+  /**
+   * Child elements used for builders
+   */
+  children?: React.ReactNode,
 };
 
 function PromiseDefaultFilter<T>(x: PromiseResult<T>): x is IPromiseDefault {
-    return (x as IPromiseDefault).state === 'default';
+  return (x as IPromiseDefault).state === 'default';
 }
 function PromiseLoadingFilter<T>(x: PromiseResult<T>): x is IPromiseLoading {
-    return (x as IPromiseLoading).state === 'loading';
+  return (x as IPromiseLoading).state === 'loading';
 }
 function PromiseSuccessFilter<T>(x: PromiseResult<T>): x is IPromiseSuccess<T> {
-    return (x as IPromiseSuccess<T>).state === 'success';
+  return (x as IPromiseSuccess<T>).state === 'success';
 }
 function PromiseFailureFilter<T>(x: PromiseResult<T>): x is IPromiseFailure {
-    return (x as IPromiseFailure).state === 'failure';
+  return (x as IPromiseFailure).state === 'failure';
 }
 
+/**
+ * A PromiseConsumer is a Consumer component that consumes the states of a provided Promise
+ * instance using the PromiseProvider.
+ * 
+ * A PromiseConsumer has 4 building states, and 3 building phases:
+ * 1. onDefault: called before the PromiseConsumer mounts.
+ * 2. onLoading: called after the PromiseConsumer mounts.
+ * 3.a onSuccess: called after the Promise instance resolves.
+ * 3.b onFailure: called after the Promise instnace rejects.
+ */
 export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: IPromiseConsumerProps<T>) {
-    const result = usePromiseProvider<T>(of);
+  const result = usePromiseProvider<T>(of);
 
-    if (result == null) {
-        return null;
-    }
-    if (builder != null) {
-        return builder(result, children);
-    }
-    if (onLoading && PromiseLoadingFilter(result)) {
-        return onLoading(children);
-    }
-    if (onSuccess && PromiseSuccessFilter(result)) {
-        return onSuccess(result.value, children);
-    }
-    if (onFailure && PromiseFailureFilter(result)) {
-        return onFailure(result.error, children);
-    }
-    if (onDefault && PromiseDefaultFilter(result)) {
-        return onDefault(children);
-    }
+  if (result == null) {
     return null;
+  }
+  if (builder != null) {
+    return builder(result, children);
+  }
+  if (onLoading && PromiseLoadingFilter(result)) {
+    return onLoading(children);
+  }
+  if (onSuccess && PromiseSuccessFilter(result)) {
+    return onSuccess(result.value, children);
+  }
+  if (onFailure && PromiseFailureFilter(result)) {
+    return onFailure(result.error, children);
+  }
+  if (onDefault && PromiseDefaultFilter(result)) {
+    return onDefault(children);
+  }
+  return null;
 };

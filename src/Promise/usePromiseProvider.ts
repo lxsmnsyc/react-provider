@@ -31,6 +31,9 @@ import { PromiseResult } from "./PromiseProvider";
 
 export type PromiseProviderFinder<T> = ProviderFinder<PromiseResult<T>>;
 
+/**
+ * A PromiseProvider hook used for consuming the PromiseProvider states.
+ */
 export function usePromiseProvider<T>(finder: PromiseProviderFinder<T>): Optional<PromiseResult<T>> {
-    return useProvider<Optional<PromiseResult<T>>>(finder);
+  return useProvider<Optional<PromiseResult<T>>>(finder);
 }

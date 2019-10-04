@@ -37,9 +37,18 @@ export type ProviderKey = string;
  * Prop type annotation for the Provider
  */
 export interface IProviderProps<T> {
-    value: T,
-    of?: ProviderKey,
-    children?: React.ReactNode,
+  /**
+   * The value to be exposed in the component tree.
+   */
+  value: T,
+  /**
+   * An optional identifier for a Provider element
+   */
+  of?: ProviderKey,
+  /**
+   * Child elements
+   */
+  children?: React.ReactNode,
 }
 
 /**
@@ -48,34 +57,34 @@ export interface IProviderProps<T> {
  * value through the use of Consumers or Selectors.
  */
 export function Provider<T>({ value, of, children }: IProviderProps<T>) {
-    /**
-     * Gets the contextual value list
-     */
-    const values = React.useContext(ProviderContext);
+  /**
+   * Gets the contextual value list
+   */
+  const values = React.useContext(ProviderContext);
 
-    /**
-     * Declare the tuple entry for identifying this Provider.
-     */
-    const entry = [of, value];
+  /**
+   * Declare the tuple entry for identifying this Provider.
+   */
+  const entry = [of, value];
 
-    /**
-     * Memoize this entry to prevent unreasonable re-renders
-     */
-    const memoEntry = React.useMemo(() => entry, entry);
+  /**
+   * Memoize this entry to prevent unreasonable re-renders
+   */
+  const memoEntry = React.useMemo(() => entry, entry);
 
-    /**
-     * Append the tuple entry to the value list.
-     */
-    const entries = [memoEntry, ...values];
+  /**
+   * Append the tuple entry to the value list.
+   */
+  const entries = [memoEntry, ...values];
 
-    /**
-     * Memoize the value list to prevent unreasonable re-renders
-     */
-    const memoEntries = React.useMemo(() => entries, entries);
+  /**
+   * Memoize the value list to prevent unreasonable re-renders
+   */
+  const memoEntries = React.useMemo(() => entries, entries);
 
-    return (
-        <ProviderContext.Provider value={memoEntries}>
-            { children }
-        </ProviderContext.Provider>
-    );
+  return (
+    <ProviderContext.Provider value={memoEntries}>
+      { children }
+    </ProviderContext.Provider>
+  );
 }

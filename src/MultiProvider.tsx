@@ -37,21 +37,21 @@ export type ProviderType = React.ComponentType<IProviderProps<any>>;
  * Prop type annotation for the MultiProvider
  */
 export interface IMultiProviderProps {
-    providers: Array<React.ReactElement<IProviderProps<any>, ProviderType>>,
-    children: React.ReactNode,
+  providers: Array<React.ReactElement<IProviderProps<any>, ProviderType>>,
+  children: React.ReactNode,
 }
 
 /**
- * a MultiProvider component is a kind of component which
+ * a MultiProvider component is a component which
  * allows composition of Provider elements. Another purpose
  * of MultiProvider is to prevent writing up deeply nested
  * Provider; MultiProvider maintains the same level of nesting
  * while also maintaing the Provider nesting level.
  */
 export function MultiProvider({ providers, children }: IMultiProviderProps) {
-    return (
-        <>
-            {providers.reduceRight((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
-        </>
-    );
+  return (
+    <>
+      {providers.reduceRight((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
+    </>
+  );
 }

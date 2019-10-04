@@ -26,16 +26,13 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { IProviderProps, Provider, ProviderKey } from '../Provider';
-import { ChangeNotifier } from "./ChangeNotifier";
+import { IProviderProps, Provider } from '../Provider';
+import { ChangeNotifier } from './ChangeNotifier';
 
 /**
  * Property type definitions for the ChangeNotifierProvider
  */
 export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends IProviderProps<T> {
-    of?: ProviderKey,
-    value: T,
-    children?: React.ReactNode,
 };
 
 /**
@@ -43,9 +40,9 @@ export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends 
  * which extends ChangeNotifier
  */
 export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: IChangeNotifierProviderProps<T>) {
-    return (
-        <Provider of={of} value={value}>
-            { children }
-        </Provider>
-    );
+  return (
+    <Provider of={of} value={value}>
+      { children }
+    </Provider>
+  );
 }

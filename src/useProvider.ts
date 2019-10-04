@@ -49,42 +49,40 @@ export type ProviderFinder<T> = ProviderFilter<T> | ProviderKey;
  * @param values 
  */
 function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
-    if (typeof finder === 'function') {
-        return values.find(([, value]) => finder(value));
-    }
-    if (typeof finder === 'string') {
-        return values.find(([key]) => key === finder);
-    }
-    return null;
+  if (typeof finder === 'function') {
+    return values.find(([, value]) => finder(value));
+  }
+  if (typeof finder === 'string') {
+    return values.find(([key]) => key === finder);
+  }
+  return null;
 }
 
 /**
  * A hook which gets the nearest corresponding value (given a finder)
  * up to the root Provider. If no corresponding value was found, the
- * default value will be returned (if provided).
- * @param finder 
- * @param defaultValue 
+ * default value will be returned (if provided). 
  */
 export function useProvider<T>(finder: ProviderFinder<T>, defaultValue?: T): Optional<T> {
-    /**
-     * Gets the contextual value list
-     */
-    const values = React.useContext(ProviderContext);
+  /**
+   * Gets the contextual value list
+   */
+  const values = React.useContext(ProviderContext);
 
-    /**
-     * finds the corresponding value
-     */
-    const result = findValue(finder, values);
+  /**
+   * finds the corresponding value
+   */
+  const result = findValue(finder, values);
 
-    /**
-     * If no value was found, return the defaultValue.
-     */
-    if (result == null) {
-        return defaultValue;
-    }
-    /**
-     * Since the value list are comprised of [key, value] tuples
-     * return the second value.
-     */
-    return result[1];
+  /**
+   * If no value was found, return the defaultValue.
+   */
+  if (result == null) {
+    return defaultValue;
+  }
+  /**
+   * Since the value list are comprised of [key, value] tuples
+   * return the second value.
+   */
+  return result[1];
 }

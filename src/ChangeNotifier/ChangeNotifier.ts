@@ -36,49 +36,49 @@ export type ChangeNotifierListener = Action;
  * - callbacks are called asynchronously.
  */
 export class ChangeNotifier {
+  /**
+   * Contains the listeners
+   */
+  private listeners: Set<ChangeNotifierListener>;
+
+  private scheduled: boolean;
+
+  constructor() {
+    this.listeners = new Set<ChangeNotifierListener>();
+    this.scheduled = false;
+  }
+
+  public addListener(listener: ChangeNotifierListener) {
+    this.listeners.add(listener);
+  }
+
+  public removeListener(listener: ChangeNotifierListener) {
+    this.listeners.delete(listener);
+  }
+
+  public notifyListeners() {
     /**
-     * Contains the listeners
+     * Debounce calls
      */
-    private listeners: Set<ChangeNotifierListener>;
-
-    private scheduled: boolean;
-
-    constructor() {
-        this.listeners = new Set<ChangeNotifierListener>();
-        this.scheduled = false;
+    if (this.scheduled) {
+      return;
     }
+    this.scheduled = true;
 
-    public addListener(listener: ChangeNotifierListener) {
-        this.listeners.add(listener);
-    }
+    /**
+     * Schedule the task
+     */
+    Promise.resolve().then(() => {
+      /**
+       * Allow debouncing
+       */
+      this.scheduled = false;
 
-    public removeListener(listener: ChangeNotifierListener) {
-        this.listeners.delete(listener);
-    }
-
-    public notifyListeners() {
-        /**
-         * Debounce calls
-         */
-        if (this.scheduled) {
-            return;
-        }
-        this.scheduled = true;
-
-        /**
-         * Schedule the task
-         */
-        Promise.resolve().then(() => {
-            /**
-             * Allow debouncing
-             */
-            this.scheduled = false;
-
-            /**
-             * Clone the Set instance to prevent synchronous
-             * addListener calls
-             */
-            new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
-        });
-    }
+      /**
+       * Clone the Set instance to prevent synchronous
+       * addListener calls
+       */
+      new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
+    });
+  }
 }

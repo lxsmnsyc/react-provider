@@ -1,4 +1,3 @@
-import * as React from 'react';
 /**
  * @license
  * MIT License
@@ -26,18 +25,19 @@ import * as React from 'react';
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { IProviderProps, Provider, ProviderKey } from "../Provider";
+import * as React from 'react';
+import { IProviderProps, Provider } from '../Provider';
 
+/**
+ * Property type definitions for EventTargetProvider
+ */
 export interface IEventTargetProviderProps<T extends EventTarget> extends IProviderProps<T>{
-    of?: ProviderKey,
-    value: T,
-    children?: React.ReactNode,
 }
 
 export function EventTargetProvider<T extends EventTarget>({ of, value, children }: IEventTargetProviderProps<T>) {
-    return (
-        <Provider of={of} value={value}>
-            { children }
-        </Provider>
-    );
+  return (
+    <Provider of={of} value={value}>
+      { children }
+    </Provider>
+  );
 }
