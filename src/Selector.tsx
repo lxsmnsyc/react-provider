@@ -45,7 +45,7 @@ export interface ISelectorProps<T, R> {
 export interface ISelector2Props<T1, T2, R> {
   of: [
     ProviderFinder<T1>,
-    ProviderFinder<T2>,
+    ProviderFinder<T2>
   ],
   selector: Function2<T1, T2, R>,
   children?: React.ReactNode,
@@ -55,7 +55,7 @@ export interface ISelector3Props<T1, T2, T3, R> {
   of: [
     ProviderFinder<T1>,
     ProviderFinder<T2>,
-    ProviderFinder<T3>,
+    ProviderFinder<T3>
   ],
   selector: Function3<T1, T2, T3, R>,
   children?: React.ReactNode,
@@ -66,7 +66,7 @@ export interface ISelector4Props<T1, T2, T3, T4, R> {
     ProviderFinder<T1>,
     ProviderFinder<T2>,
     ProviderFinder<T3>,
-    ProviderFinder<T4>,
+    ProviderFinder<T4>
   ],
   selector: Function4<T1, T2, T3, T4, R>,
   children?: React.ReactNode,
