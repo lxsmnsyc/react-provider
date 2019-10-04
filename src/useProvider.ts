@@ -28,7 +28,6 @@
 import * as React from 'react';
 import { ProviderKey } from './Provider';
 import ProviderContext from './ProviderContext';
-import { Optional } from './utils/Optional';
 
 /**
  * A filter function which searches the up to the root
@@ -58,12 +57,18 @@ function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
   return null;
 }
 
+export class ProviderNotFoundError extends Error {
+  constructor(of: ProviderFinder<any>) {
+    super(`Value not found for finder: ${of.toString()}`);
+  }
+}
+
 /**
  * A hook which gets the nearest corresponding value (given a finder)
  * up to the root Provider. If no corresponding value was found, the
  * default value will be returned (if provided). 
  */
-export function useProvider<T>(finder: ProviderFinder<T>, defaultValue?: T): Optional<T> {
+export function useProvider<T>(finder: ProviderFinder<T>): T {
   /**
    * Gets the contextual value list
    */
@@ -75,10 +80,10 @@ export function useProvider<T>(finder: ProviderFinder<T>, defaultValue?: T): Opt
   const result = findValue(finder, values);
 
   /**
-   * If no value was found, return the defaultValue.
+   * If no value was found, throw an error.
    */
-  if (result == null) {
-    return defaultValue;
+  if (result == null) { 
+    throw new ProviderNotFoundError(finder);
   }
   /**
    * Since the value list are comprised of [key, value] tuples
