@@ -1,0 +1,57 @@
+---
+name: Provider
+route: '/provider'
+---
+import { Playground, Props } from 'docz';
+import { Provider, Consumer } from '../../src';
+
+# Provider
+
+A `<Provider>` component is a component that exposes a value in its
+component tree. The components inside that tree can consume this
+value through the use of `<Consumer>`s, `<Selector>`s or `<Provider>` Hooks.
+
+## Basic Usage
+
+<Playground>
+  <Provider of="A" value="Hello World">
+    <Consumer of="A" builder={x => <h1>{x}</h1>} />
+  </Provider>
+</Playground>
+
+## Nested Providers
+
+`<Consumer>`s will receive the value from the nearest `<Provider>` that corresponds to the given identifier, that is, if `<Provider>`s from the same tree has the same identifier.
+
+<Playground>
+  <Provider of="A" value="Foo">
+    <Provider of="A" value="Bar">
+      <Provider of="A" value="Baz">
+        <Consumer of="A" builder={x => <h1>{x}</h1>} />
+      </Provider>
+      <Consumer of="A" builder={x => <h2>{x}</h2>} />
+    </Provider>
+    <Consumer of="A" builder={x => <h3>{x}</h3>} />
+  </Provider>
+</Playground>
+
+
+## Provider Filters
+
+`Provider`s can omit the `of` property, but can still be identified by `<Consumer>`s through the use of filter functions.
+
+<Playground>
+  <Provider value="Hello World">
+    <Provider value={100}>
+      <Provider value="Hello Joe">
+        <Consumer of={x => typeof x === 'number'} builder={x => <h1>{x}</h1>} />
+      </Provider>
+      <Consumer of={x => typeof x === 'string'} builder={x => <h2>{x}</h2>} />
+    </Provider>
+    <Consumer of={x => typeof x === 'string'} builder={x => <h3>{x}</h3>} />
+  </Provider>
+</Playground>
+
+## Properties
+
+<Props of={Provider} />
