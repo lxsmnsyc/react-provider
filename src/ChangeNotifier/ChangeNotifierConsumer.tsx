@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { BiFunction } from '../utils/Function';
+import { Function2 } from '../utils/Function';
 import { Optional } from '../utils/Optional';
 import { ChangeNotifier } from './ChangeNotifier';
 import { ChangeNotifierFinder, useChangeNotifierProvider } from './useChangeNotifierProvider';
@@ -34,7 +34,7 @@ import { ChangeNotifierFinder, useChangeNotifierProvider } from './useChangeNoti
 /**
  * type definition for ChangeNotifierConsumer.builder property
  */
-export type ChangeNotifierBuilder<T extends ChangeNotifier> = BiFunction<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ChangeNotifierBuilder<T extends ChangeNotifier> = Function2<T, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * property type definitions for the ChangeNotifierConsumer
