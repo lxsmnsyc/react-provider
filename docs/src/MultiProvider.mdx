@@ -1,6 +1,7 @@
 ---
 name: MultiProvider
-route: '/multiprovider'
+route: '/multi-provider'
+menu: Components
 ---
 import { Playground, Props } from 'docz';
 import { MultiProvider, Provider, Consumer } from '../../src';
@@ -45,11 +46,11 @@ can be rewritten to this
 
 <Playground>
   <MultiProvider
-  providers={[
-    <Provider of="A" value="Foo" />,
-    <Provider of="B" value="Bar" />,
-    <Provider of="C" value="Baz" />
-  ]}
+    providers={[
+      <Provider of="A" value="Foo" />,
+      <Provider of="B" value="Bar" />,
+      <Provider of="C" value="Baz" />
+    ]}
   >
     <Consumer of="A" builder={x => <h1>{ x }</h1>} />
     <Consumer of="B" builder={x => <h2>{ x }</h2>} />
