@@ -44,7 +44,7 @@ export interface IProxyProviderProps1<T, R> extends IProxyProviderPropsBase {
 export interface IProxyProviderProps2<T1, T2, R> extends IProxyProviderPropsBase {
   identifiers: [
     ProviderFinder<T1>,
-    ProviderFinder<T2>,
+    ProviderFinder<T2>
   ],
   builder: Function2<T1, T2, R>,
 }
@@ -52,7 +52,7 @@ export interface IProxyProviderProps3<T1, T2, T3, R> extends IProxyProviderProps
   identifiers: [
     ProviderFinder<T1>,
     ProviderFinder<T2>,
-    ProviderFinder<T3>,
+    ProviderFinder<T3>
   ],
   builder: Function3<T1, T2, T3, R>,
 }
@@ -61,7 +61,7 @@ export interface IProxyProviderProps4<T1, T2, T3, T4, R> extends IProxyProviderP
     ProviderFinder<T1>,
     ProviderFinder<T2>,
     ProviderFinder<T3>,
-    ProviderFinder<T4>,
+    ProviderFinder<T4>
   ],
   builder: Function4<T1, T2, T3, T4, R>,
 }
