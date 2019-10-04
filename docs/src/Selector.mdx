@@ -1,0 +1,17 @@
+---
+name: Selector
+route: '/selector'
+menu: Components
+---
+import { Playground, Props } from 'docz';
+import { Selector, Provider } from '../../src';
+
+# Selector
+
+## Basic Usage
+
+<Playground>
+  <Provider of="A" value={[1, 2, 3, 4]}>
+    <Selector of="A" selector={x => x.length} builder={x => <h1>Value length: {x}</h1>} />
+  </Provider>
+</Playground>
