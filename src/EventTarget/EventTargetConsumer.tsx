@@ -26,14 +26,14 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { BiFunction } from '../utils/Function';
+import { Function2 } from '../utils/Function';
 import { Optional } from '../utils/Optional';
 import { EventOptions, EventTargetProviderFinder, useEventTargetProvider } from './useEventTargetProvider';
 
 /**
  * Type definition for an EventTargetProviderBuilder
  */
-export type EventTargetProviderBuilder = BiFunction<Event, Optional<React.ReactNode>, React.ReactElement>;
+export type EventTargetProviderBuilder = Function2<Event, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definitions for the EventTargetConsumer
