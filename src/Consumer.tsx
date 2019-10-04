@@ -58,7 +58,7 @@ export interface IConsumerProps<T> {
 export interface IConsumer2Props<T1, T2> {
   of: [
     ProviderFinder<T1>,
-    ProviderFinder<T2>,
+    ProviderFinder<T2>
   ],
   builder: ConsumerBuilder2<T1, T2>,
   children?: React.ReactNode,
@@ -67,7 +67,7 @@ export interface IConsumer3Props<T1, T2, T3> {
   of: [
     ProviderFinder<T1>,
     ProviderFinder<T2>,
-    ProviderFinder<T3>,
+    ProviderFinder<T3>
   ],
   builder: ConsumerBuilder3<T1, T2, T3>,
   children?: React.ReactNode,
@@ -77,7 +77,7 @@ export interface IConsumer4Props<T1, T2, T3, T4> {
     ProviderFinder<T1>,
     ProviderFinder<T2>,
     ProviderFinder<T3>,
-    ProviderFinder<T4>,
+    ProviderFinder<T4>
   ],
   builder: ConsumerBuilder4<T1, T2, T3, T4>,
   children?: React.ReactNode,
