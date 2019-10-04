@@ -26,8 +26,8 @@
  * @copyright Alexis Munsayac 2019
  */
 export { Provider } from './Provider';
-export { Consumer } from './Consumer';
-export { Selector } from './Selector';
+export { Consumer, Consumer2, Consumer3, Consumer4 } from './Consumer';
+export { Selector, Selector2, Selector3, Selector4 } from './Selector';
 export { useProvider } from './useProvider';
 
 export { PromiseProvider } from './Promise/PromiseProvider';
@@ -44,3 +44,4 @@ export { EventTargetConsumer } from './EventTarget/EventTargetConsumer';
 export { useEventTargetProvider } from './EventTarget/useEventTargetProvider';
 
 export { MultiProvider } from './MultiProvider';
+export { ProxyProvider, ProxyProvider2, ProxyProvider3, ProxyProvider4 } from './ProxyProvider';
