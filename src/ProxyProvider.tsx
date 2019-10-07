@@ -26,29 +26,26 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { Provider, ProviderKey } from './Provider';
+import { IProviderBaseProps, Provider } from './Provider';
 import { ProviderFinder, useProvider } from './useProvider';
 import { Function, Function2, Function3, Function4 } from './utils/Function';
+import { useDispose } from './utils/useDispose';
 
 /**
  * Type definition for the ProxyProvider builders
  */
-export interface IProxyProviderPropsBase {
-  of?: ProviderKey,
-  children?: React.ReactNode,
-}
-export interface IProxyProviderProps1<T, R> extends IProxyProviderPropsBase {
+export interface IProxyProviderProps1<T, R> extends IProviderBaseProps<R> {
   identifiers: ProviderFinder<T>,
   builder: Function<T, R>,
 }
-export interface IProxyProviderProps2<T1, T2, R> extends IProxyProviderPropsBase {
+export interface IProxyProviderProps2<T1, T2, R> extends IProviderBaseProps<R> {
   identifiers: [
     ProviderFinder<T1>,
     ProviderFinder<T2>
   ],
   builder: Function2<T1, T2, R>,
 }
-export interface IProxyProviderProps3<T1, T2, T3, R> extends IProxyProviderPropsBase {
+export interface IProxyProviderProps3<T1, T2, T3, R> extends IProviderBaseProps<R> {
   identifiers: [
     ProviderFinder<T1>,
     ProviderFinder<T2>,
@@ -56,7 +53,7 @@ export interface IProxyProviderProps3<T1, T2, T3, R> extends IProxyProviderProps
   ],
   builder: Function3<T1, T2, T3, R>,
 }
-export interface IProxyProviderProps4<T1, T2, T3, T4, R> extends IProxyProviderPropsBase {
+export interface IProxyProviderProps4<T1, T2, T3, T4, R> extends IProviderBaseProps<R> {
   identifiers: [
     ProviderFinder<T1>,
     ProviderFinder<T2>,
@@ -70,45 +67,69 @@ export interface IProxyProviderProps4<T1, T2, T3, T4, R> extends IProxyProviderP
  * The ProxyProvider component is a Provider component that consumes values from its identified
  * Provider ancestors, transforms it, and provides it to its children.
  */
-export function ProxyProvider<T, R>({ of, identifiers, builder, children }: IProxyProviderProps1<T, R>) {
+export function ProxyProvider<T, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps1<T, R>) {
   const value = useProvider<T>(identifiers);
+
   const memo = React.useMemo(() => builder(value), [ value, builder ]);
+
+  /**
+   * Apply lifecycle
+   */
+  useDispose(memo, dispose);
+
   return (
     <Provider of={of} value={memo}>
       { children }
     </Provider>
   );
 }
-export function ProxyProvider2<T1, T2, R>({ of, identifiers, builder, children }: IProxyProviderProps2<T1, T2, R>) {
+export function ProxyProvider2<T1, T2, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps2<T1, T2, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
+
   const memo = React.useMemo(() => builder(v1, v2), [ builder, v1, v2 ]);
+
+  /**
+   * Apply lifecycle
+   */
+  useDispose(memo, dispose);
+
   return (
     <Provider of={of} value={memo}>
       { children }
     </Provider>
   );
 }
-export function ProxyProvider3<T1, T2, T3, R>({ of, identifiers, builder, children }: IProxyProviderProps3<T1, T2, T3, R>) {
+export function ProxyProvider3<T1, T2, T3, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps3<T1, T2, T3, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
   const v3 = useProvider<T3>(identifiers[2]);
 
   const memo = React.useMemo(() => builder(v1, v2, v3), [ builder, v1, v2, v3 ]);
 
+  /**
+   * Apply lifecycle
+   */
+  useDispose(memo, dispose);
+
   return (
     <Provider of={of} value={memo}>
       { children }
     </Provider>
   );
 }
-export function ProxyProvider4<T1, T2, T3, T4, R>({ of, identifiers, builder, children }: IProxyProviderProps4<T1, T2, T3, T4, R>) {
+export function ProxyProvider4<T1, T2, T3, T4, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps4<T1, T2, T3, T4, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
   const v3 = useProvider<T3>(identifiers[2]);
   const v4 = useProvider<T4>(identifiers[3]);
 
   const memo = React.useMemo(() => builder(v1, v2, v3, v4), [ builder, v1, v2, v3, v4 ]);
+
+  /**
+   * Apply lifecycle
+   */
+  useDispose(memo, dispose);
 
   return (
     <Provider of={of} value={memo}>
