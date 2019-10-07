@@ -27,6 +27,7 @@
  */
 import * as React from 'react';
 import { IProviderProps, Provider } from '../Provider';
+import { useDispose } from '../utils/useDispose';
 
 /**
  * Property type definitions for PromiseProvider
@@ -116,8 +117,11 @@ function usePromise<T>(promise: Promise<T>) {
  * - Success: { state: 'success', value: T }
  * - Failure: { state: 'failure', error: Error } 
  */
-export function PromiseProvider<T>({ of, value, children }: IPromiseProviderProps<T>) {
+export function PromiseProvider<T>({ of, value, children, dispose }: IPromiseProviderProps<T>) {
   const state = usePromise(value);
+
+  useDispose(value, dispose);
+
   return (
     <Provider of={of} value={state}>
       { children }
