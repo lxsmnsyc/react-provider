@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import { Action } from "../utils/Function";
+import { Optional } from "../utils/Optional";
 
 export type ChangeNotifierListener = Action;
 
@@ -39,7 +40,7 @@ export class ChangeNotifier {
   /**
    * Contains the listeners
    */
-  private listeners: Set<ChangeNotifierListener>;
+  private listeners: Optional<Set<ChangeNotifierListener>>;
 
   private scheduled: boolean;
 
@@ -48,15 +49,42 @@ export class ChangeNotifier {
     this.scheduled = false;
   }
 
+  /**
+   * Adds a listener
+   * @param listener A function that is executed whenever
+   * notifyListeners is called.
+   */
   public addListener(listener: ChangeNotifierListener) {
-    this.listeners.add(listener);
+    if (this.listeners) {
+      this.listeners.add(listener);
+    }
   }
 
+  /**
+   * Removes a listener
+   * @param listener A function that is already added
+   * for notifying.
+   */
   public removeListener(listener: ChangeNotifierListener) {
-    this.listeners.delete(listener);
+    if (this.listeners) {
+      this.listeners.delete(listener);
+    }
   }
 
-  public notifyListeners() {
+  /**
+   * Disposes this instance for cleanup logic
+   */
+  public dispose() {
+    this.listeners = null;
+  }
+
+  /**
+   * Notifies all listeners
+   */
+  protected notifyListeners() {
+    if (this.listeners == null) {
+      return;
+    }
     /**
      * Debounce calls
      */
@@ -74,6 +102,9 @@ export class ChangeNotifier {
        */
       this.scheduled = false;
 
+      if (this.listeners == null) {
+        return;
+      }
       /**
        * Clone the Set instance to prevent synchronous
        * addListener calls
