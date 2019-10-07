@@ -34,9 +34,9 @@ import { IProviderProps, Provider } from '../Provider';
 export interface IEventTargetProviderProps<T extends EventTarget> extends IProviderProps<T>{
 }
 
-export function EventTargetProvider<T extends EventTarget>({ of, value, children }: IEventTargetProviderProps<T>) {
+export function EventTargetProvider<T extends EventTarget>({ of, value, children, dispose }: IEventTargetProviderProps<T>) {
   return (
-    <Provider of={of} value={value}>
+    <Provider of={of} value={value} dispose={dispose}>
       { children }
     </Provider>
   );
