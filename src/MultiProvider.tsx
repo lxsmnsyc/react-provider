@@ -26,18 +26,18 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { IProviderProps } from "./Provider";
+import { IProviderBaseProps } from "./Provider";
 
 /**
  * Type definition for the allowed elements for the providers list.
  */
-export type ProviderType = React.ComponentType<IProviderProps<any>>;
+export type ProviderType = React.ComponentType<IProviderBaseProps<any>>;
 
 /**
  * Prop type annotation for the MultiProvider
  */
 export interface IMultiProviderProps {
-  providers: Array<React.ReactElement<IProviderProps<any>, ProviderType>>,
+  providers: Array<React.ReactElement<IProviderBaseProps<any>, ProviderType>>,
   children: React.ReactNode,
 }
 
