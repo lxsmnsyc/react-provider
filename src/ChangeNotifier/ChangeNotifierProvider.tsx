@@ -39,9 +39,9 @@ export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends 
  * A ChangeNotifierProvider is a kind of Provider component which exposes an instance of a class
  * which extends ChangeNotifier
  */
-export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children }: IChangeNotifierProviderProps<T>) {
+export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children, dispose }: IChangeNotifierProviderProps<T>) {
   return (
-    <Provider of={of} value={value}>
+    <Provider of={of} value={value} dispose={dispose}>
       { children }
     </Provider>
   );
