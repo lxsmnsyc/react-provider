@@ -26,19 +26,23 @@
  * @copyright Alexis Munsayac 2019
  */
 export { Provider } from './Provider';
+export { ProviderBuilder } from './ProviderBuilder';
 export { Consumer, Consumer2, Consumer3, Consumer4 } from './Consumer';
 export { Selector, Selector2, Selector3, Selector4 } from './Selector';
 export { useProvider } from './useProvider';
 
+export { PromiseBuilder } from './Promise/PromiseBuilder';
 export { PromiseProvider } from './Promise/PromiseProvider';
 export { PromiseConsumer } from './Promise/PromiseConsumer';
 export { usePromiseProvider } from './Promise/usePromiseProvider';
 
 export { ChangeNotifier } from './ChangeNotifier/ChangeNotifier';
+export { ChangeNotifierBuilder } from './ChangeNotifier/ChangeNotifierBuilder';
 export { ChangeNotifierProvider } from './ChangeNotifier/ChangeNotifierProvider';
 export { ChangeNotifierConsumer } from './ChangeNotifier/ChangeNotifierConsumer';
 export { useChangeNotifierProvider } from './ChangeNotifier/useChangeNotifierProvider';
 
+export { EventTargetBuilder } from './EventTarget/EventTargetBuilder';
 export { EventTargetProvider } from './EventTarget/EventTargetProvider';
 export { EventTargetConsumer } from './EventTarget/EventTargetConsumer';
 export { useEventTargetProvider } from './EventTarget/useEventTargetProvider';
