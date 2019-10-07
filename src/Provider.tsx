@@ -27,20 +27,15 @@
  */
 import * as React from 'react';
 import ProviderContext from './ProviderContext';
+import { Consume } from './utils/Function';
+import { useDispose } from './utils/useDispose';
 
 /**
  * A value that can be used as an identifier for the Provider
  */
 export type ProviderKey = string;
 
-/**
- * Prop type annotation for the Provider
- */
-export interface IProviderProps<T> {
-  /**
-   * The value to be exposed in the component tree.
-   */
-  value: T,
+export interface IProviderBaseProps<T> {
   /**
    * An optional identifier for a Provider element
    */
@@ -49,6 +44,20 @@ export interface IProviderProps<T> {
    * Child elements
    */
   children?: React.ReactNode,
+  /**
+   * Applies component unmount lifecycle for cleaning up
+   * exposed value.
+   */
+  dispose?: Consume<T>,
+}
+/**
+ * Prop type annotation for the Provider
+ */
+export interface IProviderProps<T> extends IProviderBaseProps<T> {
+  /**
+   * The value to be exposed in the component tree.
+   */
+  value: T,
 }
 
 /**
@@ -56,7 +65,7 @@ export interface IProviderProps<T> {
  * component tree. The components inside that tree can consume this
  * value through the use of Consumers or Selectors.
  */
-export function Provider<T>({ value, of, children }: IProviderProps<T>) {
+export function Provider<T>({ value, of, children, dispose }: IProviderProps<T>) {
   /**
    * Gets the contextual value list
    */
@@ -81,6 +90,11 @@ export function Provider<T>({ value, of, children }: IProviderProps<T>) {
    * Memoize the value list to prevent unreasonable re-renders
    */
   const memoEntries = React.useMemo(() => entries, entries);
+
+  /**
+   * Apply lifecycle
+   */
+  useDispose<T>(value, dispose);
 
   return (
     <ProviderContext.Provider value={memoEntries}>
