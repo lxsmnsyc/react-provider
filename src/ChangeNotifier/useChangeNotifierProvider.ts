@@ -27,7 +27,6 @@
  */
 import * as React from 'react';
 import { ProviderFinder, useProvider } from '../useProvider';
-import { Optional } from '../utils/Optional';
 import { ChangeNotifier, ChangeNotifierListener } from './ChangeNotifier';
 
 /**
@@ -39,11 +38,11 @@ export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
  * A hook which gets the nearest corresponding ChangeNotifier
  * instance (given a finder) up to the root Provider.
  */
-export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true) {
+export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true): T {
   /**
    * Gets the corresponding notifier
    */
-  const value = useProvider<Optional<T>>(of);
+  const value = useProvider<T>(of);
   /**
    * Used for forcing re-renders whenever the component
    * needs to be notified.
@@ -55,7 +54,7 @@ export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNo
      * If there is a value found, and we need to listen for
      * notifications.
      */
-    if (value && listen) {
+    if (listen) {
       /**
        * Define the callback
        */
