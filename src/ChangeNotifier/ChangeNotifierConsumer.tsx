@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { Function2 } from '../utils/Function';
+import { Function2, Function3, Function4, Function5 } from '../utils/Function';
 import { Optional } from '../utils/Optional';
 import { ChangeNotifier } from './ChangeNotifier';
 import { ChangeNotifierFinder, useChangeNotifierProvider } from './useChangeNotifierProvider';
@@ -34,7 +34,24 @@ import { ChangeNotifierFinder, useChangeNotifierProvider } from './useChangeNoti
 /**
  * type definition for ChangeNotifierConsumer.builder property
  */
-export type ChangeNotifierBuilder<T extends ChangeNotifier> = Function2<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ChangeNotifierBuilderFunction<T extends ChangeNotifier> = Function2<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ChangeNotifierBuilderFunction2<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier
+> = Function3<T1, T2, Optional<React.ReactNode>, React.ReactElement>;
+
+export type ChangeNotifierBuilderFunction3<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier
+> = Function4<T1, T2, T3, Optional<React.ReactNode>, React.ReactElement>;
+
+export type ChangeNotifierBuilderFunction4<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier,
+  T4 extends ChangeNotifier
+> = Function5<T1, T2, T3, T4, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * property type definitions for the ChangeNotifierConsumer
@@ -51,13 +68,82 @@ export interface IChangeNotifierConsumerProps<T extends ChangeNotifier> {
   /**
    * Builder function
    */
-  builder: ChangeNotifierBuilder<T>,
+  builder: ChangeNotifierBuilderFunction<T>,
+}
+export interface IChangeNotifierConsumer2Props<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier
+> {
+  of: [
+    ChangeNotifierFinder<T1>,
+    ChangeNotifierFinder<T2>
+  ],
+  children?: React.ReactNode,
+  builder: ChangeNotifierBuilderFunction2<T1, T2>,
+}
+export interface IChangeNotifierConsumer3Props<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier
+> {
+  of: [
+    ChangeNotifierFinder<T1>,
+    ChangeNotifierFinder<T2>,
+    ChangeNotifierFinder<T3>
+  ],
+  children?: React.ReactNode,
+  builder: ChangeNotifierBuilderFunction3<T1, T2, T3>,
+}
+export interface IChangeNotifierConsumer4Props<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier,
+  T4 extends ChangeNotifier
+> {
+  of: [
+    ChangeNotifierFinder<T1>,
+    ChangeNotifierFinder<T2>,
+    ChangeNotifierFinder<T3>,
+    ChangeNotifierFinder<T4>
+  ],
+  children?: React.ReactNode,
+  builder: ChangeNotifierBuilderFunction4<T1, T2, T3, T4>,
 }
 
 export function ChangeNotifierConsumer<T extends ChangeNotifier>({ of, builder, children }: IChangeNotifierConsumerProps<T>) {
   const value = useChangeNotifierProvider<T>(of, true);
-  if (value == null) {
-    return null;
-  }
-  return builder(value, children);
+  return React.useMemo(() => builder(value, children), [ builder, value, children ]);
+};
+
+export function ChangeNotifierConsumer2<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier
+>({ of, builder, children }: IChangeNotifierConsumer2Props<T1, T2>) {
+  const v1 = useChangeNotifierProvider<T1>(of[0], true);
+  const v2 = useChangeNotifierProvider<T2>(of[1], true);
+  return React.useMemo(() => builder(v1, v2, children), [ builder, v1, v2, children ]);
+};
+
+export function ChangeNotifierConsumer3<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier
+>({ of, builder, children }: IChangeNotifierConsumer3Props<T1, T2, T3>) {
+  const v1 = useChangeNotifierProvider<T1>(of[0], true);
+  const v2 = useChangeNotifierProvider<T2>(of[1], true);
+  const v3 = useChangeNotifierProvider<T3>(of[2], true);
+  return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3, children ]);
+};
+
+export function ChangeNotifierConsumer4<
+  T1 extends ChangeNotifier,
+  T2 extends ChangeNotifier,
+  T3 extends ChangeNotifier,
+  T4 extends ChangeNotifier
+>({ of, builder, children }: IChangeNotifierConsumer4Props<T1, T2, T3, T4>) {
+  const v1 = useChangeNotifierProvider<T1>(of[0], true);
+  const v2 = useChangeNotifierProvider<T2>(of[1], true);
+  const v3 = useChangeNotifierProvider<T3>(of[2], true);
+  const v4 = useChangeNotifierProvider<T4>(of[3], true);
+  return React.useMemo(() => builder(v1, v2, v3, v4, children), [ builder, v1, v2, v3, v4, children ]);
 };
