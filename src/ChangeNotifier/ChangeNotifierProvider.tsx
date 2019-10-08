@@ -40,8 +40,14 @@ export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends 
  * which extends ChangeNotifier
  */
 export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children, dispose }: IChangeNotifierProviderProps<T>) {
+  const callback = React.useCallback((notifier) => {
+    notifier.dispose();
+    if (dispose) {
+      dispose(notifier);
+    }
+  }, [ dispose ]);
   return (
-    <Provider of={of} value={value} dispose={dispose}>
+    <Provider of={of} value={value} dispose={callback}>
       { children }
     </Provider>
   );
