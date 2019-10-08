@@ -25,27 +25,152 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-export { Provider } from './Provider';
-export { ProviderBuilder } from './ProviderBuilder';
-export { Consumer, Consumer2, Consumer3, Consumer4 } from './Consumer';
-export { Selector, Selector2, Selector3, Selector4 } from './Selector';
-export { useProvider } from './useProvider';
+export {
+  Provider,
+  ProviderKey,
+  IProviderBaseProps,
+  IProviderProps,
+} from './Provider';
 
-export { PromiseBuilder } from './Promise/PromiseBuilder';
-export { PromiseProvider } from './Promise/PromiseProvider';
-export { PromiseConsumer } from './Promise/PromiseConsumer';
-export { usePromiseProvider } from './Promise/usePromiseProvider';
+export {
+  ProviderBuilder,
+  IProviderBuilderProps,
+} from './ProviderBuilder';
 
-export { ChangeNotifier } from './ChangeNotifier/ChangeNotifier';
-export { ChangeNotifierBuilder } from './ChangeNotifier/ChangeNotifierBuilder';
-export { ChangeNotifierProvider } from './ChangeNotifier/ChangeNotifierProvider';
-export { ChangeNotifierConsumer } from './ChangeNotifier/ChangeNotifierConsumer';
-export { useChangeNotifierProvider } from './ChangeNotifier/useChangeNotifierProvider';
+export {
+  ConsumerBuilder,
+  ConsumerBuilder2,
+  ConsumerBuilder3,
+  ConsumerBuilder4,
+  IConsumerProps,
+  IConsumer2Props,
+  IConsumer3Props,
+  IConsumer4Props,
+  Consumer,
+  Consumer2,
+  Consumer3,
+  Consumer4,
+} from './Consumer';
 
-export { EventTargetBuilder } from './EventTarget/EventTargetBuilder';
-export { EventTargetProvider } from './EventTarget/EventTargetProvider';
-export { EventTargetConsumer } from './EventTarget/EventTargetConsumer';
-export { useEventTargetProvider } from './EventTarget/useEventTargetProvider';
+export {
+  SelectorBuilder,
+  ISelectorProps,
+  ISelector2Props,
+  ISelector3Props,
+  ISelector4Props,
+  Selector,
+  Selector2,
+  Selector3,
+  Selector4,
+} from './Selector';
 
-export { MultiProvider } from './MultiProvider';
-export { ProxyProvider, ProxyProvider2, ProxyProvider3, ProxyProvider4 } from './ProxyProvider';
+export {
+  useProvider,
+  ProviderFilter,
+  ProviderFinder,
+  ProviderNotFoundError,
+} from './useProvider';
+
+export {
+  IPromiseBuilderProps,
+  PromiseBuilder,
+} from './Promise/PromiseBuilder';
+
+export {
+  IPromiseDefault,
+  IPromiseLoading,
+  IPromiseFailure,
+  IPromiseSuccess,
+  PromiseResult,
+  PromiseStates,
+  IPromiseProviderProps,
+  PromiseProvider,
+} from './Promise/PromiseProvider';
+
+export {
+  IPromiseConsumerProps,
+  PromiseConsumerBuilder,
+  PromiseConsumerOnDefaultBuilder,
+  PromiseConsumerOnFailureBuilder,
+  PromiseConsumerOnLoadingBuilder,
+  PromiseConsumerOnSuccessBuilder,
+  PromiseConsumer,
+} from './Promise/PromiseConsumer';
+
+export {
+  PromiseProviderFinder,
+  usePromiseProvider,
+} from './Promise/usePromiseProvider';
+
+export {
+  ChangeNotifierListener,
+  ChangeNotifier,
+} from './ChangeNotifier/ChangeNotifier';
+
+export {
+  IChangeNotifierBuilderProps,
+  ChangeNotifierBuilder,
+} from './ChangeNotifier/ChangeNotifierBuilder';
+
+export {
+  IChangeNotifierProviderProps,
+  ChangeNotifierProvider,
+} from './ChangeNotifier/ChangeNotifierProvider';
+
+export {
+  ChangeNotifierBuilderFunction,
+  ChangeNotifierBuilderFunction2,
+  ChangeNotifierBuilderFunction3,
+  ChangeNotifierBuilderFunction4,
+  IChangeNotifierConsumerProps,
+  IChangeNotifierConsumer2Props,
+  IChangeNotifierConsumer3Props,
+  IChangeNotifierConsumer4Props,
+  ChangeNotifierConsumer,
+  ChangeNotifierConsumer2,
+  ChangeNotifierConsumer3,
+  ChangeNotifierConsumer4,
+} from './ChangeNotifier/ChangeNotifierConsumer';
+
+export {
+  ChangeNotifierFinder,
+  useChangeNotifierProvider,
+} from './ChangeNotifier/useChangeNotifierProvider';
+
+export {
+  IEventTargetBuilderProps,
+  EventTargetBuilder,
+} from './EventTarget/EventTargetBuilder';
+export {
+  IEventTargetProviderProps,
+  EventTargetProvider,
+} from './EventTarget/EventTargetProvider';
+
+export {
+  EventTargetProviderBuilder,
+  IEventTargetConsumerProps,
+  EventTargetConsumer,
+} from './EventTarget/EventTargetConsumer';
+
+export {
+  EventOptions,
+  EventTargetProviderFinder,
+  useEventTargetProvider,
+} from './EventTarget/useEventTargetProvider';
+
+export {
+  MultiProvider,
+  IMultiProviderProps,
+  ProviderType,
+} from './MultiProvider';
+
+export { 
+  IProxyProviderProps1,
+  IProxyProviderProps2,
+  IProxyProviderProps3,
+  IProxyProviderProps4,
+  ProxyProvider,
+  ProxyProvider2,
+  ProxyProvider3,
+  ProxyProvider4,
+} from './ProxyProvider';
