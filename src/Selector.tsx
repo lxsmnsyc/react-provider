@@ -99,14 +99,14 @@ export function Selector<T, R>({ of, selector, builder, children }: ISelectorPro
    * Memoize the result of the builder to prevent re-build calls,
    * where the selected value is a dependency value.
    */
-  return React.useMemo(() => builder(selected, children), [ selected ]);
+  return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
 export function Selector2<T1, T2, R>({ of, selector, builder, children }: ISelector2Props<T1, T2, R>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
   const selected = selector(v1, v2);
-  return React.useMemo(() => builder(selected, children), [ selected ]);
+  return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
 export function Selector3<T1, T2, T3, R>({ of, selector, builder, children }: ISelector3Props<T1, T2, T3, R>) {
@@ -114,7 +114,7 @@ export function Selector3<T1, T2, T3, R>({ of, selector, builder, children }: IS
   const v2 = useProvider<T2>(of[1]);
   const v3 = useProvider<T3>(of[2]);
   const selected = selector(v1, v2, v3);
-  return React.useMemo(() => builder(selected, children), [ selected ]);
+  return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
 export function Selector4<T1, T2, T3, T4, R>({ of, selector, builder, children }: ISelector4Props<T1, T2, T3, T4, R>) {
@@ -123,5 +123,5 @@ export function Selector4<T1, T2, T3, T4, R>({ of, selector, builder, children }
   const v3 = useProvider<T3>(of[2]);
   const v4 = useProvider<T4>(of[3]);
   const selected = selector(v1, v2, v3, v4);
-  return React.useMemo(() => builder(selected, children), [ selected ]);
+  return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
