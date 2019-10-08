@@ -91,14 +91,14 @@ export interface IConsumer4Props<T1, T2, T3, T4> {
 export function Consumer<T>({ of, builder, children }: IConsumerProps<T>) {
   const value = useProvider<T>(of);
 
-  return React.useMemo(() => builder(value, children), [ builder, value ]);
+  return React.useMemo(() => builder(value, children), [ builder, value, children ]);
 }
 
 export function Consumer2<T1, T2>({ of, builder, children }: IConsumer2Props<T1, T2>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
 
-  return React.useMemo(() => builder(v1, v2, children), [ builder, v1, v2 ]);
+  return React.useMemo(() => builder(v1, v2, children), [ builder, v1, v2, children ]);
 }
 
 export function Consumer3<T1, T2, T3>({ of, builder, children }: IConsumer3Props<T1, T2, T3>) {
@@ -106,7 +106,7 @@ export function Consumer3<T1, T2, T3>({ of, builder, children }: IConsumer3Props
   const v2 = useProvider<T2>(of[1]);
   const v3 = useProvider<T3>(of[2]);
 
-  return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3 ]);
+  return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3, children ]);
 }
 
 export function Consumer4<T1, T2, T3, T4>({ of, builder, children }: IConsumer4Props<T1, T2, T3, T4>) {
@@ -115,5 +115,5 @@ export function Consumer4<T1, T2, T3, T4>({ of, builder, children }: IConsumer4P
   const v3 = useProvider<T3>(of[2]);
   const v4 = useProvider<T4>(of[3]);
 
-  return React.useMemo(() => builder(v1, v2, v3, v4, children), [ builder, v1, v2, v3, v4 ]);
+  return React.useMemo(() => builder(v1, v2, v3, v4, children), [ builder, v1, v2, v3, v4, children ]);
 }
