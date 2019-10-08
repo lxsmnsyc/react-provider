@@ -38,7 +38,7 @@ export type EventTargetProviderBuilder = Function2<Event, Optional<React.ReactNo
 /**
  * Property type definitions for the EventTargetConsumer
  */
-interface IEventTargetConsumerProps<T extends EventTarget> {
+export interface IEventTargetConsumerProps<T extends EventTarget> {
   /**
    * Provider identifier
    */
