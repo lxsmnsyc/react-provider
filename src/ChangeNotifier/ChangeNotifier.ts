@@ -25,8 +25,8 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-import { Action } from "../utils/Function";
-import { Optional } from "../utils/Optional";
+import { Action } from '../utils/Function';
+import { Optional } from '../utils/Optional';
 
 export type ChangeNotifierListener = Action;
 
