@@ -133,6 +133,13 @@ export {
 } from './ChangeNotifier/ChangeNotifierConsumer';
 
 export {
+  ChangeNotifierProxyProvider,
+  ChangeNotifierProxyProvider2,
+  ChangeNotifierProxyProvider3,
+  ChangeNotifierProxyProvider4,
+} from './ChangeNotifier/ChangeNotifierProxyProvider';
+
+export {
   ChangeNotifierFinder,
   useChangeNotifierProvider,
 } from './ChangeNotifier/useChangeNotifierProvider';
@@ -164,7 +171,7 @@ export {
   ProviderType,
 } from './MultiProvider';
 
-export { 
+export {
   IProxyProviderProps1,
   IProxyProviderProps2,
   IProxyProviderProps3,
