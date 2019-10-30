@@ -77,12 +77,12 @@ export interface ISelector4Props<T1, T2, T3, T4, R> {
  * A Selector component is a kind of Consumer component that can filter
  * the exposed value from a Provider and prevents re-building the generated
  * component if the selector value doesn't change.
- * 
+ *
  * A Selector can accept a builder function, which is a function that produces
  * a React.Element, or a component value, which accepts a React.ComponentType.
  * If both values are provided, the component value is returned first, otherwise,
  * the builder function is called.
- * 
+ *
  * If the selected value didn't change, the builder won't be called again until
  * such time the value changes.
  */
@@ -95,6 +95,7 @@ export function Selector<T, R>({ of, selector, builder, children }: ISelectorPro
    * Perform value selection
    */
   const selected = selector(value);
+
   /**
    * Memoize the result of the builder to prevent re-build calls,
    * where the selected value is a dependency value.
@@ -102,26 +103,32 @@ export function Selector<T, R>({ of, selector, builder, children }: ISelectorPro
   return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
-export function Selector2<T1, T2, R>({ of, selector, builder, children }: ISelector2Props<T1, T2, R>) {
+export function Selector2<T1, T2, R>
+({ of, selector, builder, children }: ISelector2Props<T1, T2, R>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
   const selected = selector(v1, v2);
+
   return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
-export function Selector3<T1, T2, T3, R>({ of, selector, builder, children }: ISelector3Props<T1, T2, T3, R>) {
+export function Selector3<T1, T2, T3, R>
+({ of, selector, builder, children }: ISelector3Props<T1, T2, T3, R>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
   const v3 = useProvider<T3>(of[2]);
   const selected = selector(v1, v2, v3);
+
   return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
 
-export function Selector4<T1, T2, T3, T4, R>({ of, selector, builder, children }: ISelector4Props<T1, T2, T3, T4, R>) {
+export function Selector4<T1, T2, T3, T4, R>
+({ of, selector, builder, children }: ISelector4Props<T1, T2, T3, T4, R>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
   const v3 = useProvider<T3>(of[2]);
   const v4 = useProvider<T4>(of[3]);
   const selected = selector(v1, v2, v3, v4);
+
   return React.useMemo(() => builder(selected, children), [ selected, children ]);
 }
