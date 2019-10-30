@@ -38,7 +38,8 @@ export type ChangeNotifierFinder<T extends ChangeNotifier> = ProviderFinder<T>;
  * A hook which gets the nearest corresponding ChangeNotifier
  * instance (given a finder) up to the root Provider.
  */
-export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNotifierFinder<T>, listen: boolean = true): T {
+export function useChangeNotifierProvider<T extends ChangeNotifier>
+(of: ChangeNotifierFinder<T>, listen: boolean = true): T {
   /**
    * Gets the corresponding notifier
    */
@@ -69,6 +70,7 @@ export function useChangeNotifierProvider<T extends ChangeNotifier>(of: ChangeNo
 
       return () => value.removeListener(callback);
     }
+
     return () => null;
   }, [ value, listen, state ]);
 
