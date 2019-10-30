@@ -44,8 +44,8 @@ export type ProviderFinder<T> = ProviderFilter<T> | ProviderKey;
 /**
  * Searches up to the root Provider for the corresponding
  * value.
- * @param finder 
- * @param values 
+ * @param finder
+ * @param values
  */
 function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
   if (typeof finder === 'function') {
@@ -54,6 +54,7 @@ function findValue<T>(finder: ProviderFinder<T>, values: any[]) {
   if (typeof finder === 'string') {
     return values.find(([key]) => key === finder);
   }
+
   return null;
 }
 
@@ -66,7 +67,7 @@ export class ProviderNotFoundError extends Error {
 /**
  * A hook which gets the nearest corresponding value (given a finder)
  * up to the root Provider. If no corresponding value was found, the
- * default value will be returned (if provided). 
+ * default value will be returned (if provided).
  */
 export function useProvider<T>(finder: ProviderFinder<T>): T {
   /**
@@ -82,9 +83,10 @@ export function useProvider<T>(finder: ProviderFinder<T>): T {
   /**
    * If no value was found, throw an error.
    */
-  if (result == null) { 
+  if (result == null) {
     throw new ProviderNotFoundError(finder);
   }
+
   /**
    * Since the value list are comprised of [key, value] tuples
    * return the second value.
