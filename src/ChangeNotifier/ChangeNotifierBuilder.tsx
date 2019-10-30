@@ -32,14 +32,15 @@ import { ChangeNotifier } from './ChangeNotifier';
 /**
  * Property type definitions for the ChangeNotifierBuilder
  */
-export interface IChangeNotifierBuilderProps<T extends ChangeNotifier> extends IProviderBuilderProps<T> {
-};
+export interface IChangeNotifierBuilderProps<T extends ChangeNotifier>
+  extends IProviderBuilderProps<T> {}
 
 /**
  * A ChangeNotifierProvider is a kind of Provider component which exposes an instance of a class
  * which extends ChangeNotifier
  */
-export function ChangeNotifierBuilder<T extends ChangeNotifier>({ of, builder, children, dispose }: IChangeNotifierBuilderProps<T>) {
+export function ChangeNotifierBuilder<T extends ChangeNotifier>
+({ of, builder, children, dispose }: IChangeNotifierBuilderProps<T>) {
   return (
     <ProviderBuilder of={of} builder={builder} dispose={dispose}>
       { children }
