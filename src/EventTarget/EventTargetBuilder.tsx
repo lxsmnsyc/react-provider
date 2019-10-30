@@ -31,10 +31,10 @@ import { IProviderBuilderProps, ProviderBuilder } from '../ProviderBuilder';
 /**
  * Property type definitions for EventTargetBuilder
  */
-export interface IEventTargetBuilderProps<T extends EventTarget> extends IProviderBuilderProps<T>{
-}
+export interface IEventTargetBuilderProps<T extends EventTarget> extends IProviderBuilderProps<T> {}
 
-export function EventTargetBuilder<T extends EventTarget>({ of, builder, children, dispose }: IEventTargetBuilderProps<T>) {
+export function EventTargetBuilder<T extends EventTarget>
+({ of, builder, children, dispose }: IEventTargetBuilderProps<T>) {
   return (
     <ProviderBuilder of={of} builder={builder} dispose={dispose}>
       { children }
