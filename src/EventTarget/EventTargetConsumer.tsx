@@ -33,7 +33,8 @@ import { EventOptions, EventTargetProviderFinder, useEventTargetProvider } from 
 /**
  * Type definition for an EventTargetProviderBuilder
  */
-export type EventTargetProviderBuilder = Function2<Event, Optional<React.ReactNode>, React.ReactElement>;
+export type EventTargetProviderBuilder =
+  Function2<Event, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definitions for the EventTargetConsumer
@@ -62,14 +63,18 @@ export interface IEventTargetConsumerProps<T extends EventTarget> {
 }
 
 /**
- * An EventTargetConsumer is a kind of Consumer component that consumes the recently emitted Event value
- * the provided EventTarget instance. This Consumer rebuilds everytime a new value is emitted.
+ * An EventTargetConsumer is a kind of Consumer component that
+ * consumes the recently emitted Event value the provided
+ * EventTarget instance. This Consumer rebuilds everytime a new
+ * value is emitted.
  */
-export function EventTargetConsumer<T extends EventTarget>({ of, builder, children, eventType, options }: IEventTargetConsumerProps<T>) {
+export function EventTargetConsumer<T extends EventTarget>
+({ of, builder, children, eventType, options }: IEventTargetConsumerProps<T>) {
   const value = useEventTargetProvider<T>(of, eventType, options);
 
   if (value == null) {
     return null;
   }
+
   return builder(value, children);
 }
