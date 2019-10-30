@@ -81,7 +81,7 @@ export class ChangeNotifier {
   /**
    * Notifies all listeners
    */
-  protected notifyListeners() {
+  protected async notifyListeners(): Promise<void> {
     if (this.listeners == null) {
       return;
     }
@@ -96,7 +96,7 @@ export class ChangeNotifier {
     /**
      * Schedule the task
      */
-    Promise.resolve().then(() => {
+    await Promise.resolve().then(() => {
       /**
        * Allow debouncing
        */
