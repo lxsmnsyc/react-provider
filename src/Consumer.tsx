@@ -33,10 +33,14 @@ import { Optional } from './utils/Optional';
 /**
  * type definition for the Consumer.builder property
  */
-export type ConsumerBuilder<T> = Function2<T, Optional<React.ReactNode>, React.ReactElement>;
-export type ConsumerBuilder2<T1, T2> = Function3<T1, T2, Optional<React.ReactNode>, React.ReactElement>;
-export type ConsumerBuilder3<T1, T2, T3> = Function4<T1, T2, T3, Optional<React.ReactNode>, React.ReactElement>;
-export type ConsumerBuilder4<T1, T2, T3, T4> = Function5<T1, T2, T3, T4, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder<T> =
+  Function2<T, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder2<T1, T2> =
+  Function3<T1, T2, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder3<T1, T2, T3> =
+  Function4<T1, T2, T3, Optional<React.ReactNode>, React.ReactElement>;
+export type ConsumerBuilder4<T1, T2, T3, T4> =
+  Function5<T1, T2, T3, T4, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definition for the Consumer component
@@ -109,11 +113,15 @@ export function Consumer3<T1, T2, T3>({ of, builder, children }: IConsumer3Props
   return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3, children ]);
 }
 
-export function Consumer4<T1, T2, T3, T4>({ of, builder, children }: IConsumer4Props<T1, T2, T3, T4>) {
+export function Consumer4<T1, T2, T3, T4>
+({ of, builder, children }: IConsumer4Props<T1, T2, T3, T4>) {
   const v1 = useProvider<T1>(of[0]);
   const v2 = useProvider<T2>(of[1]);
   const v3 = useProvider<T3>(of[2]);
   const v4 = useProvider<T4>(of[3]);
 
-  return React.useMemo(() => builder(v1, v2, v3, v4, children), [ builder, v1, v2, v3, v4, children ]);
+  return React.useMemo(
+    () => builder(v1, v2, v3, v4, children),
+    [ builder, v1, v2, v3, v4, children ],
+  );
 }
