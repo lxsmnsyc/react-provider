@@ -25,5 +25,4 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2019
  */
-export type None = null | undefined | void;
-export type Optional<T> = T | None;
+export type Optional<T> = T | null | undefined;
