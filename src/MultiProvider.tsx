@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2019
  */
 import * as React from 'react';
-import { IProviderBaseProps } from "./Provider";
+import { IProviderBaseProps } from './Provider';
 
 /**
  * Type definition for the allowed elements for the providers list.
@@ -51,7 +51,12 @@ export interface IMultiProviderProps {
 export function MultiProvider({ providers, children }: IMultiProviderProps) {
   return (
     <>
-      {providers.reduceRight((reduced, provider) => React.cloneElement(provider, {}, reduced), children)}
+      {
+        providers.reduceRight(
+          (reduced, provider) => React.cloneElement(provider, {}, reduced),
+          children,
+        )
+      }
     </>
   );
 }
