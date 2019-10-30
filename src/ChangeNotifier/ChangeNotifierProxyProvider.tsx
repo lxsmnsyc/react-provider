@@ -29,22 +29,19 @@ import * as React from 'react';
 import {
   IProxyProviderProps1, IProxyProviderProps2, IProxyProviderProps3, IProxyProviderProps4,
 } from '../ProxyProvider';
+import { useProvider } from '../useProvider';
 import { useDispose } from '../utils/useDispose';
 import { ChangeNotifier } from './ChangeNotifier';
 import { ChangeNotifierProvider } from './ChangeNotifierProvider';
-import { useChangeNotifierProvider } from './useChangeNotifierProvider';
 
 /**
  * ChangeNotifierProxyProvider
  *
  * a variant of ProxyProvider but injects values with a ChangeNotifierProvider
  */
-export function ChangeNotifierProxyProvider<
-  T extends ChangeNotifier,
-  R extends ChangeNotifier,
->
+export function ChangeNotifierProxyProvider<T, R extends ChangeNotifier>
 ({ of, identifiers, builder, children, dispose }: IProxyProviderProps1<T, R>) {
-  const value = useChangeNotifierProvider<T>(identifiers);
+  const value = useProvider<T>(identifiers);
 
   const memo = React.useMemo(() => builder(value), [ value, builder ]);
 
@@ -59,14 +56,10 @@ export function ChangeNotifierProxyProvider<
     </ChangeNotifierProvider>
   );
 }
-export function ChangeNotifierProxyProvider2<
-  T1 extends ChangeNotifier,
-  T2 extends ChangeNotifier,
-  R extends ChangeNotifier,
->
+export function ChangeNotifierProxyProvider2<T1, T2, R extends ChangeNotifier>
 ({ of, identifiers, builder, children, dispose }: IProxyProviderProps2<T1, T2, R>) {
-  const v1 = useChangeNotifierProvider<T1>(identifiers[0]);
-  const v2 = useChangeNotifierProvider<T2>(identifiers[1]);
+  const v1 = useProvider<T1>(identifiers[0]);
+  const v2 = useProvider<T2>(identifiers[1]);
 
   const memo = React.useMemo(() => builder(v1, v2), [ builder, v1, v2 ]);
 
@@ -82,16 +75,11 @@ export function ChangeNotifierProxyProvider2<
   );
 }
 
-export function ChangeNotifierProxyProvider3<
-  T1 extends ChangeNotifier,
-  T2 extends ChangeNotifier,
-  T3 extends ChangeNotifier,
-  R extends ChangeNotifier
->
+export function ChangeNotifierProxyProvider3<T1, T2, T3, R extends ChangeNotifier>
 ({ of, identifiers, builder, children, dispose }: IProxyProviderProps3<T1, T2, T3, R>) {
-  const v1 = useChangeNotifierProvider<T1>(identifiers[0]);
-  const v2 = useChangeNotifierProvider<T2>(identifiers[1]);
-  const v3 = useChangeNotifierProvider<T3>(identifiers[2]);
+  const v1 = useProvider<T1>(identifiers[0]);
+  const v2 = useProvider<T2>(identifiers[1]);
+  const v3 = useProvider<T3>(identifiers[2]);
 
   const memo = React.useMemo(() => builder(v1, v2, v3), [ builder, v1, v2, v3 ]);
 
@@ -106,18 +94,12 @@ export function ChangeNotifierProxyProvider3<
     </ChangeNotifierProvider>
   );
 }
-export function ChangeNotifierProxyProvider4<
-  T1 extends ChangeNotifier,
-  T2 extends ChangeNotifier,
-  T3 extends ChangeNotifier,
-  T4 extends ChangeNotifier,
-  R extends ChangeNotifier
->
+export function ChangeNotifierProxyProvider4<T1, T2, T3, T4, R extends ChangeNotifier>
 ({ of, identifiers, builder, children, dispose }: IProxyProviderProps4<T1, T2, T3, T4, R>) {
-  const v1 = useChangeNotifierProvider<T1>(identifiers[0]);
-  const v2 = useChangeNotifierProvider<T2>(identifiers[1]);
-  const v3 = useChangeNotifierProvider<T3>(identifiers[2]);
-  const v4 = useChangeNotifierProvider<T4>(identifiers[3]);
+  const v1 = useProvider<T1>(identifiers[0]);
+  const v2 = useProvider<T2>(identifiers[1]);
+  const v3 = useProvider<T3>(identifiers[2]);
+  const v4 = useProvider<T4>(identifiers[3]);
 
   const memo = React.useMemo(() => builder(v1, v2, v3, v4), [ builder, v1, v2, v3, v4 ]);
 
