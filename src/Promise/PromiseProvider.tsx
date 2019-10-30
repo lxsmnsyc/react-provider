@@ -33,7 +33,7 @@ import { useDispose } from '../utils/useDispose';
  * Property type definitions for PromiseProvider
  */
 export interface IPromiseProviderProps<T> extends IProviderProps<Promise<T>> {
-};
+}
 
 /**
  * Identifies the state of a Promise value
@@ -56,15 +56,19 @@ export interface IPromiseSuccess<T> {
   state: 'success',
   value?: T,
   error?: null,
-};
+}
 
 export interface IPromiseFailure {
   state: 'failure',
   error?: Error,
   value?: null,
-};
+}
 
-export type PromiseResult<T> = IPromiseDefault | IPromiseLoading | IPromiseSuccess<T> | IPromiseFailure;
+export type PromiseResult<T> =
+  | IPromiseDefault
+  | IPromiseLoading
+  | IPromiseSuccess<T>
+  | IPromiseFailure;
 
 /**
  * A hook for turning Promise instances to states.
@@ -81,6 +85,7 @@ function usePromise<T>(promise: Promise<T>) {
    */
   React.useEffect(() => {
     mounted.current = true;
+
     return () => {
       mounted.current = false;
     };
@@ -90,18 +95,20 @@ function usePromise<T>(promise: Promise<T>) {
     setState({ state: 'loading' });
 
     promise.then(
-      (value) => {
+      value => {
         if (mounted.current) {
           setState({ state: 'success', value });
         }
+
         return value;
       },
-      (error) => {
+      error => {
         if (mounted.current) {
           setState({ state: 'failure', error });
         }
+
         return error;
-      }
+      },
     );
   }, [ promise ]);
 
@@ -110,12 +117,12 @@ function usePromise<T>(promise: Promise<T>) {
 
 /**
  * A PromiseProvider is a kind of Provider that receives a Promise instance but exposes its state.
- * 
+ *
  * There are 4 kinds of states:
  * - Default: { state: 'default' }
  * - Loading: { state: 'loading' }
  * - Success: { state: 'success', value: T }
- * - Failure: { state: 'failure', error: Error } 
+ * - Failure: { state: 'failure', error: Error }
  */
 export function PromiseProvider<T>({ of, value, children, dispose }: IPromiseProviderProps<T>) {
   const state = usePromise(value);
@@ -127,4 +134,4 @@ export function PromiseProvider<T>({ of, value, children, dispose }: IPromisePro
       { children }
     </Provider>
   );
-};
+}
