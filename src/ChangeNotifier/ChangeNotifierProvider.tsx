@@ -32,20 +32,22 @@ import { ChangeNotifier } from './ChangeNotifier';
 /**
  * Property type definitions for the ChangeNotifierProvider
  */
-export interface IChangeNotifierProviderProps<T extends ChangeNotifier> extends IProviderProps<T> {
-};
+export interface IChangeNotifierProviderProps<T extends ChangeNotifier>
+  extends IProviderProps<T> {}
 
 /**
  * A ChangeNotifierProvider is a kind of Provider component which exposes an instance of a class
  * which extends ChangeNotifier
  */
-export function ChangeNotifierProvider<T extends ChangeNotifier>({ of, value, children, dispose }: IChangeNotifierProviderProps<T>) {
-  const callback = React.useCallback((notifier) => {
+export function ChangeNotifierProvider<T extends ChangeNotifier>
+({ of, value, children, dispose }: IChangeNotifierProviderProps<T>) {
+  const callback = React.useCallback(notifier => {
     notifier.dispose();
     if (dispose) {
       dispose(notifier);
     }
   }, [ dispose ]);
+
   return (
     <Provider of={of} value={value} dispose={callback}>
       { children }
