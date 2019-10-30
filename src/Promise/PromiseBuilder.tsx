@@ -33,10 +33,11 @@ export interface IPromiseBuilderProps<T> extends IProviderBuilderProps<Promise<T
 }
 
 export function PromiseBuilder<T>({ of, builder, children, dispose }: IPromiseBuilderProps<T>) {
-  const value = React.useMemo(builder, [ builder ])
+  const value = React.useMemo(builder, [ builder ]);
+
   return (
     <PromiseProvider of={of} value={value} dispose={dispose}>
       { children }
     </PromiseProvider>
-  )
+  );
 }
