@@ -34,23 +34,28 @@ import { PromiseProviderFinder, usePromiseProvider } from './usePromiseProvider'
 /**
  * Type definition for onDefault builder
  */
-export type PromiseConsumerOnDefaultBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnDefaultBuilder =
+  Function<Optional<React.ReactNode>, React.ReactElement>;
 /**
  * Type definition for onLoading builder
  */
-export type PromiseConsumerOnLoadingBuilder = Function<Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnLoadingBuilder =
+  Function<Optional<React.ReactNode>, React.ReactElement>;
 /**
  * Type definition for onSuccess builder
  */
-export type PromiseConsumerOnSuccessBuilder<T> = Function2<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerOnSuccessBuilder<T> =
+  Function2<Optional<T>, Optional<React.ReactNode>, React.ReactElement>;
 /**
  * Type definition for onFailure builder
  */
-export type PromiseConsumerOnFailureBuilder = Function2<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>; 
+export type PromiseConsumerOnFailureBuilder =
+  Function2<Optional<Error>, Optional<React.ReactNode>, React.ReactElement>;
 /**
  * Type definition for builder
  */
-export type PromiseConsumerBuilder<T> = Function2<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
+export type PromiseConsumerBuilder<T> =
+  Function2<PromiseResult<T>, Optional<React.ReactNode>, React.ReactElement>;
 
 /**
  * Property type definitions for the PromiseConsumer
@@ -88,7 +93,7 @@ export interface IPromiseConsumerProps<T> {
    * Child elements used for builders
    */
   children?: React.ReactNode,
-};
+}
 
 function PromiseDefaultFilter<T>(x: PromiseResult<T>): x is IPromiseDefault {
   return (x as IPromiseDefault).state === 'default';
@@ -106,14 +111,15 @@ function PromiseFailureFilter<T>(x: PromiseResult<T>): x is IPromiseFailure {
 /**
  * A PromiseConsumer is a Consumer component that consumes the states of a provided Promise
  * instance using the PromiseProvider.
- * 
+ *
  * A PromiseConsumer has 4 building states, and 3 building phases:
  * 1. onDefault: called before the PromiseConsumer mounts.
  * 2. onLoading: called after the PromiseConsumer mounts.
  * 3.a onSuccess: called after the Promise instance resolves.
  * 3.b onFailure: called after the Promise instnace rejects.
  */
-export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: IPromiseConsumerProps<T>) {
+export function PromiseConsumer<T>
+({ of, builder, onDefault, onLoading, onSuccess, onFailure, children }: IPromiseConsumerProps<T>) {
   const result = usePromiseProvider<T>(of);
   if (builder != null) {
     return builder(result, children);
@@ -130,5 +136,6 @@ export function PromiseConsumer<T>({ of, builder, onDefault, onLoading, onSucces
   if (onDefault && PromiseDefaultFilter(result)) {
     return onDefault(children);
   }
+
   return null;
-};
+}
