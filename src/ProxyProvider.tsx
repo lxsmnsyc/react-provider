@@ -67,7 +67,8 @@ export interface IProxyProviderProps4<T1, T2, T3, T4, R> extends IProviderBasePr
  * The ProxyProvider component is a Provider component that consumes values from its identified
  * Provider ancestors, transforms it, and provides it to its children.
  */
-export function ProxyProvider<T, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps1<T, R>) {
+export function ProxyProvider<T, R>
+({ of, identifiers, builder, children, dispose }: IProxyProviderProps1<T, R>) {
   const value = useProvider<T>(identifiers);
 
   const memo = React.useMemo(() => builder(value), [ value, builder ]);
@@ -83,7 +84,8 @@ export function ProxyProvider<T, R>({ of, identifiers, builder, children, dispos
     </Provider>
   );
 }
-export function ProxyProvider2<T1, T2, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps2<T1, T2, R>) {
+export function ProxyProvider2<T1, T2, R>
+({ of, identifiers, builder, children, dispose }: IProxyProviderProps2<T1, T2, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
 
@@ -100,7 +102,8 @@ export function ProxyProvider2<T1, T2, R>({ of, identifiers, builder, children, 
     </Provider>
   );
 }
-export function ProxyProvider3<T1, T2, T3, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps3<T1, T2, T3, R>) {
+export function ProxyProvider3<T1, T2, T3, R>
+({ of, identifiers, builder, children, dispose }: IProxyProviderProps3<T1, T2, T3, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
   const v3 = useProvider<T3>(identifiers[2]);
@@ -118,7 +121,8 @@ export function ProxyProvider3<T1, T2, T3, R>({ of, identifiers, builder, childr
     </Provider>
   );
 }
-export function ProxyProvider4<T1, T2, T3, T4, R>({ of, identifiers, builder, children, dispose }: IProxyProviderProps4<T1, T2, T3, T4, R>) {
+export function ProxyProvider4<T1, T2, T3, T4, R>
+({ of, identifiers, builder, children, dispose }: IProxyProviderProps4<T1, T2, T3, T4, R>) {
   const v1 = useProvider<T1>(identifiers[0]);
   const v2 = useProvider<T2>(identifiers[1]);
   const v3 = useProvider<T3>(identifiers[2]);
