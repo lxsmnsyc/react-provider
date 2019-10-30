@@ -46,24 +46,24 @@ function useEventTarget(eventTarget: EventTarget, eventType: string, options?: E
   const [state, setState] = React.useState<Optional<Event>>(null);
 
   React.useEffect(() => {
-    const listener = (e: Event) => setState(e);
+    eventTarget.addEventListener(eventType, setState, options);
 
-    eventTarget.addEventListener(eventType, listener, options);
-
-    return () => eventTarget.removeEventListener(eventType, listener);
-  }, [ eventTarget, eventType, options ])
+    return () => eventTarget.removeEventListener(eventType, setState);
+  }, [ eventTarget, eventType, options ]);
 
   return state;
 }
 
 /**
- * A Provider hook which consumes the recently emitted Event value 
+ * A Provider hook which consumes the recently emitted Event value
  */
-export function useEventTargetProvider<T extends EventTarget>(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): Optional<Event> {
+export function useEventTargetProvider<T extends EventTarget>
+(of: EventTargetProviderFinder<T>, eventType: string, options?: EventOptions): Optional<Event> {
   const eventTarget = useProvider<EventTarget>(of);
 
   if (eventTarget) {
     return useEventTarget(eventTarget, eventType, options);
   }
+
   return null;
 }
