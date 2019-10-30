@@ -40,14 +40,10 @@ export class ChangeNotifier {
   /**
    * Contains the listeners
    */
-  private listeners: Optional<Set<ChangeNotifierListener>>;
+  private listeners: Optional<Set<ChangeNotifierListener>> = new Set<ChangeNotifierListener>();
 
-  private scheduled: boolean;
-
-  constructor() {
-    this.listeners = new Set<ChangeNotifierListener>();
-    this.scheduled = false;
-  }
+  private success: number = 0;
+  private requested: number = 0;
 
   /**
    * Adds a listener
@@ -88,19 +84,17 @@ export class ChangeNotifier {
     /**
      * Debounce calls
      */
-    if (this.scheduled) {
+    if (this.requested !== this.success) {
       return;
     }
-    this.scheduled = true;
+    this.requested += 1;
 
     /**
      * Schedule the task
      */
     Promise.resolve().then(() => {
-      /**
-       * Allow debouncing
-       */
-      this.scheduled = false;
+      this.success += 1;
+      this.requested = this.success;
 
       if (this.listeners == null) {
         return;
