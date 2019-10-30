@@ -31,10 +31,11 @@ import { IProviderProps, Provider } from '../Provider';
 /**
  * Property type definitions for EventTargetProvider
  */
-export interface IEventTargetProviderProps<T extends EventTarget> extends IProviderProps<T>{
+export interface IEventTargetProviderProps<T extends EventTarget> extends IProviderProps<T> {
 }
 
-export function EventTargetProvider<T extends EventTarget>({ of, value, children, dispose }: IEventTargetProviderProps<T>) {
+export function EventTargetProvider<T extends EventTarget>
+({ of, value, children, dispose }: IEventTargetProviderProps<T>) {
   return (
     <Provider of={of} value={value} dispose={dispose}>
       { children }
