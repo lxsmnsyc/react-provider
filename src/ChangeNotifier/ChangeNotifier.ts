@@ -81,7 +81,7 @@ export class ChangeNotifier {
   /**
    * Notifies all listeners
    */
-  protected notifyListeners() {
+  protected async notifyListeners() {
     if (this.listeners == null) {
       return;
     }
@@ -96,20 +96,20 @@ export class ChangeNotifier {
     /**
      * Schedule the task
      */
-    Promise.resolve().then(() => {
-      /**
-       * Allow debouncing
-       */
-      this.scheduled = false;
+    await Promise.resolve();
 
-      if (this.listeners == null) {
-        return;
-      }
-      /**
-       * Clone the Set instance to prevent synchronous
-       * addListener calls
-       */
-      new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
-    });
+    /**
+     * Allow debouncing
+     */
+    this.scheduled = false;
+
+    if (this.listeners == null) {
+      return;
+    }
+    /**
+     * Clone the Set instance to prevent synchronous
+     * addListener calls
+     */
+    new Set<ChangeNotifierListener>(this.listeners).forEach(fn => fn());
   }
 }
