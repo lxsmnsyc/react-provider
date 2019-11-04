@@ -113,7 +113,9 @@ export function ChangeNotifierConsumer<T extends ChangeNotifier>
 ({ of, builder, children }: IChangeNotifierConsumerProps<T>) {
   const value = useChangeNotifierProvider<T>(of, true);
 
-  return React.useMemo(() => builder(value, children), [ builder, value, children ]);
+  const build = React.useCallback(() => builder(value, children), [ builder, value, children ]);
+
+  return build();
 }
 
 export function ChangeNotifierConsumer2<
@@ -123,7 +125,9 @@ export function ChangeNotifierConsumer2<
   const v1 = useChangeNotifierProvider<T1>(of[0], true);
   const v2 = useChangeNotifierProvider<T2>(of[1], true);
 
-  return React.useMemo(() => builder(v1, v2, children), [ builder, v1, v2, children ]);
+  const build = React.useCallback(() => builder(v1, v2, children), [ builder, v1, v2, children ]);
+
+  return build();
 }
 
 export function ChangeNotifierConsumer3<
@@ -135,7 +139,12 @@ export function ChangeNotifierConsumer3<
   const v2 = useChangeNotifierProvider<T2>(of[1], true);
   const v3 = useChangeNotifierProvider<T3>(of[2], true);
 
-  return React.useMemo(() => builder(v1, v2, v3, children), [ builder, v1, v2, v3, children ]);
+  const build = React.useCallback(
+    () => builder(v1, v2, v3, children),
+    [ builder, v1, v2, v3, children ],
+  );
+
+  return build();
 }
 
 export function ChangeNotifierConsumer4<
@@ -149,8 +158,10 @@ export function ChangeNotifierConsumer4<
   const v3 = useChangeNotifierProvider<T3>(of[2], true);
   const v4 = useChangeNotifierProvider<T4>(of[3], true);
 
-  return React.useMemo(
+  const build = React.useCallback(
     () => builder(v1, v2, v3, v4, children),
     [ builder, v1, v2, v3, v4, children ],
   );
+
+  return build();
 }
